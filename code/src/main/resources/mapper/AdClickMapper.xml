@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youdian.pay.dao.AdClickMapper">
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="ad_id" jdbcType="INTEGER" property="adId" />
+    <result column="ad_seat_id" jdbcType="INTEGER" property="adSeatId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="mobile_os" jdbcType="VARCHAR" property="mobileOs" />
+    <result column="mobile_model" jdbcType="VARCHAR" property="mobileModel" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="net_type" jdbcType="VARCHAR" property="netType" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="source" jdbcType="INTEGER" property="source" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from "ad_click"
+    where id = #{id}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.youdian.pay.dao.model.AdClickExample">
+    delete from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.youdian.pay.dao.model.AdClick">
+    insert into "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    values (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.youdian.pay.dao.model.AdClick">
+    insert into "ad_click"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="adId != null">
+        ad_id,
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="mobileOs != null">
+        mobile_os,
+      </if>
+      <if test="mobileModel != null">
+        mobile_model,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="netType != null">
+        net_type,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="adId != null">
+        #{adId},
+      </if>
+      <if test="adSeatId != null">
+        #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        #{mobileModel},
+      </if>
+      <if test="ip != null">
+        #{ip},
+      </if>
+      <if test="netType != null">
+        #{netType},
+      </if>
+      <if test="shopId != null">
+        #{shopId},
+      </if>
+      <if test="source != null">
+        #{source},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.youdian.pay.dao.model.AdClickExample" resultType="java.lang.Long">
+    select count(*) from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update "ad_click"
+    <set>
+      <if test="record.id != null">
+        id = #{record.id},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId},
+      </if>
+      <if test="record.adId != null">
+        ad_id = #{record.adId},
+      </if>
+      <if test="record.adSeatId != null">
+        ad_seat_id = #{record.adSeatId},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime},
+      </if>
+      <if test="record.mobileOs != null">
+        mobile_os = #{record.mobileOs},
+      </if>
+      <if test="record.mobileModel != null">
+        mobile_model = #{record.mobileModel},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip},
+      </if>
+      <if test="record.netType != null">
+        net_type = #{record.netType},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId},
+      </if>
+      <if test="record.source != null">
+        source = #{record.source},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update "ad_click"
+    set id = #{record.id},
+      user_id = #{record.userId},
+      ad_id = #{record.adId},
+      ad_seat_id = #{record.adSeatId},
+      create_time = #{record.createTime},
+      mobile_os = #{record.mobileOs},
+      mobile_model = #{record.mobileModel},
+      ip = #{record.ip},
+      net_type = #{record.netType},
+      shop_id = #{record.shopId},
+      source = #{record.source},
+      update_time = #{record.updateTime}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.youdian.pay.dao.model.AdClick">
+    update "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.youdian.pay.dao.model.AdClick">
+    update "ad_click"
+    set user_id = #{userId},
+      ad_id = #{adId},
+      ad_seat_id = #{adSeatId},
+      create_time = #{createTime},
+      mobile_os = #{mobileOs},
+      mobile_model = #{mobileModel},
+      ip = #{ip},
+      net_type = #{netType},
+      shop_id = #{shopId},
+      source = #{source},
+      update_time = #{updateTime}
+    where id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="ad_id" jdbcType="INTEGER" property="adId" />
+    <result column="ad_seat_id" jdbcType="INTEGER" property="adSeatId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="mobile_os" jdbcType="VARCHAR" property="mobileOs" />
+    <result column="mobile_model" jdbcType="VARCHAR" property="mobileModel" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="net_type" jdbcType="VARCHAR" property="netType" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="source" jdbcType="INTEGER" property="source" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from "ad_click"
+    where id = #{id}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.youdian.pay.dao.model.AdClickExample">
+    delete from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.youdian.pay.dao.model.AdClick">
+    insert into "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    values (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.youdian.pay.dao.model.AdClick">
+    insert into "ad_click"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="adId != null">
+        ad_id,
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="mobileOs != null">
+        mobile_os,
+      </if>
+      <if test="mobileModel != null">
+        mobile_model,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="netType != null">
+        net_type,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="adId != null">
+        #{adId},
+      </if>
+      <if test="adSeatId != null">
+        #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        #{mobileModel},
+      </if>
+      <if test="ip != null">
+        #{ip},
+      </if>
+      <if test="netType != null">
+        #{netType},
+      </if>
+      <if test="shopId != null">
+        #{shopId},
+      </if>
+      <if test="source != null">
+        #{source},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.youdian.pay.dao.model.AdClickExample" resultType="java.lang.Long">
+    select count(*) from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update "ad_click"
+    <set>
+      <if test="record.id != null">
+        id = #{record.id},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId},
+      </if>
+      <if test="record.adId != null">
+        ad_id = #{record.adId},
+      </if>
+      <if test="record.adSeatId != null">
+        ad_seat_id = #{record.adSeatId},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime},
+      </if>
+      <if test="record.mobileOs != null">
+        mobile_os = #{record.mobileOs},
+      </if>
+      <if test="record.mobileModel != null">
+        mobile_model = #{record.mobileModel},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip},
+      </if>
+      <if test="record.netType != null">
+        net_type = #{record.netType},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId},
+      </if>
+      <if test="record.source != null">
+        source = #{record.source},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update "ad_click"
+    set id = #{record.id},
+      user_id = #{record.userId},
+      ad_id = #{record.adId},
+      ad_seat_id = #{record.adSeatId},
+      create_time = #{record.createTime},
+      mobile_os = #{record.mobileOs},
+      mobile_model = #{record.mobileModel},
+      ip = #{record.ip},
+      net_type = #{record.netType},
+      shop_id = #{record.shopId},
+      source = #{record.source},
+      update_time = #{record.updateTime}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.youdian.pay.dao.model.AdClick">
+    update "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.youdian.pay.dao.model.AdClick">
+    update "ad_click"
+    set user_id = #{userId},
+      ad_id = #{adId},
+      ad_seat_id = #{adSeatId},
+      create_time = #{createTime},
+      mobile_os = #{mobileOs},
+      mobile_model = #{mobileModel},
+      ip = #{ip},
+      net_type = #{netType},
+      shop_id = #{shopId},
+      source = #{source},
+      update_time = #{updateTime}
+    where id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="ad_id" jdbcType="INTEGER" property="adId" />
+    <result column="ad_seat_id" jdbcType="INTEGER" property="adSeatId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="mobile_os" jdbcType="VARCHAR" property="mobileOs" />
+    <result column="mobile_model" jdbcType="VARCHAR" property="mobileModel" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="net_type" jdbcType="VARCHAR" property="netType" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="source" jdbcType="INTEGER" property="source" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from "ad_click"
+    where id = #{id}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.youdian.pay.dao.model.AdClickExample">
+    delete from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.youdian.pay.dao.model.AdClick">
+    insert into "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    values (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.youdian.pay.dao.model.AdClick">
+    insert into "ad_click"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="adId != null">
+        ad_id,
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="mobileOs != null">
+        mobile_os,
+      </if>
+      <if test="mobileModel != null">
+        mobile_model,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="netType != null">
+        net_type,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="adId != null">
+        #{adId},
+      </if>
+      <if test="adSeatId != null">
+        #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        #{mobileModel},
+      </if>
+      <if test="ip != null">
+        #{ip},
+      </if>
+      <if test="netType != null">
+        #{netType},
+      </if>
+      <if test="shopId != null">
+        #{shopId},
+      </if>
+      <if test="source != null">
+        #{source},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.youdian.pay.dao.model.AdClickExample" resultType="java.lang.Long">
+    select count(*) from "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update "ad_click"
+    <set>
+      <if test="record.id != null">
+        id = #{record.id},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId},
+      </if>
+      <if test="record.adId != null">
+        ad_id = #{record.adId},
+      </if>
+      <if test="record.adSeatId != null">
+        ad_seat_id = #{record.adSeatId},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime},
+      </if>
+      <if test="record.mobileOs != null">
+        mobile_os = #{record.mobileOs},
+      </if>
+      <if test="record.mobileModel != null">
+        mobile_model = #{record.mobileModel},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip},
+      </if>
+      <if test="record.netType != null">
+        net_type = #{record.netType},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId},
+      </if>
+      <if test="record.source != null">
+        source = #{record.source},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update "ad_click"
+    set id = #{record.id},
+      user_id = #{record.userId},
+      ad_id = #{record.adId},
+      ad_seat_id = #{record.adSeatId},
+      create_time = #{record.createTime},
+      mobile_os = #{record.mobileOs},
+      mobile_model = #{record.mobileModel},
+      ip = #{record.ip},
+      net_type = #{record.netType},
+      shop_id = #{record.shopId},
+      source = #{record.source},
+      update_time = #{record.updateTime}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.youdian.pay.dao.model.AdClick">
+    update "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.youdian.pay.dao.model.AdClick">
+    update "ad_click"
+    set user_id = #{userId},
+      ad_id = #{adId},
+      ad_seat_id = #{adSeatId},
+      create_time = #{createTime},
+      mobile_os = #{mobileOs},
+      mobile_model = #{mobileModel},
+      ip = #{ip},
+      net_type = #{netType},
+      shop_id = #{shopId},
+      source = #{source},
+      update_time = #{updateTime}
+    where id = #{id}
+  </update>
+</mapper>
