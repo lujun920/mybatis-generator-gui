@@ -38,9 +38,11 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
     public void addElements(XmlElement parentElement) {
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
 
-        answer
-                .addAttribute(new Attribute(
-                        "id", introspectedTable.getUpdateByPrimaryKeySelectiveStatementId())); //$NON-NLS-1$
+        //answer.addAttribute(new Attribute(
+        //                "id", introspectedTable.getUpdateByPrimaryKeySelectiveStatementId())); //$NON-NLS-1$
+
+        answer.addAttribute(new Attribute(
+                "id", "updateRecord")); //$NON-NLS-1$
 
         String parameterType;
 

@@ -36,6 +36,9 @@ public class UpdateByExampleSelectiveElementGenerator extends
 
     @Override
     public void addElements(XmlElement parentElement) {
+        if(true){
+            return;
+        }
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
 
         answer
