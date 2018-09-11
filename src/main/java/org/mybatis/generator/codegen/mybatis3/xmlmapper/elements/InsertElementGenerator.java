@@ -46,9 +46,9 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
     public void addElements(XmlElement parentElement) {
         XmlElement answer = new XmlElement("insert"); //$NON-NLS-1$
 
-        answer.addAttribute(new Attribute(
-                "id", introspectedTable.getInsertStatementId())); //$NON-NLS-1$
-
+        //answer.addAttribute(new Attribute(
+        //        "id", introspectedTable.getInsertStatementId())); //$NON-NLS-1$
+        answer.addAttribute(new Attribute("id", "saveRecord"));
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
             parameterType = new FullyQualifiedJavaType(

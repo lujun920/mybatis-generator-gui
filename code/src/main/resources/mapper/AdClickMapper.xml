@@ -17,60 +17,76 @@
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause">
+  <sql id="Example_Where_Clause">
     <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
     </where>
   </sql>
   <sql id="Base_Column_List">
@@ -111,7 +127,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.youdian.pay.dao.model.AdClick">
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
     insert into "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
       ip, net_type, shop_id, source, update_time)
     values (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 

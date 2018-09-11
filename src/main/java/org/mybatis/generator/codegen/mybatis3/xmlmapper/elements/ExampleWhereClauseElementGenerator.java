@@ -19,8 +19,8 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
-
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+import org.mybatis.generator.codegen.mybatis3.ListUtilities;
+import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
  * 
@@ -39,55 +39,84 @@ public class ExampleWhereClauseElementGenerator extends
 
     @Override
     public void addElements(XmlElement parentElement) {
+        //if(true){
+        //    return;
+        //}
         XmlElement answer = new XmlElement("sql"); //$NON-NLS-1$
 
-        if (isForUpdateByExample) {
-            answer
-                    .addAttribute(new Attribute(
-                            "id", introspectedTable.getMyBatis3UpdateByExampleWhereClauseId())); //$NON-NLS-1$
-        } else {
-            answer.addAttribute(new Attribute(
-                    "id", introspectedTable.getExampleWhereClauseId())); //$NON-NLS-1$
-        }
+        /**
+         * 关闭UpdateByExampleWhereClause 输出
+         */
+        //if (isForUpdateByExample) {
+        //    answer.addAttribute(new Attribute(
+        //                    "id", introspectedTable.getMyBatis3UpdateByExampleWhereClauseId())); //$NON-NLS-1$
+        //} else {
+        //    answer.addAttribute(new Attribute(
+        //            "id", introspectedTable.getExampleWhereClauseId())); //$NON-NLS-1$
+        //}
+
+        answer.addAttribute(new Attribute(
+                "id", introspectedTable.getExampleWhereClauseId())); //$NON-NLS-1$
 
         context.getCommentGenerator().addComment(answer);
 
         XmlElement whereElement = new XmlElement("where"); //$NON-NLS-1$
         answer.addElement(whereElement);
+        StringBuilder sb = new StringBuilder();
+        for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
+                .getNonPrimaryKeyColumns())) {
+            XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
+            sb.setLength(0);
+            sb.append(introspectedColumn.getJavaProperty());
+            sb.append(" != null"); //$NON-NLS-1$
+            isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
+            whereElement.addElement(isNotNullElement);
 
-        XmlElement outerForEachElement = new XmlElement("foreach"); //$NON-NLS-1$
-        if (isForUpdateByExample) {
-            outerForEachElement.addAttribute(new Attribute(
-                    "collection", "example.oredCriteria")); //$NON-NLS-1$ //$NON-NLS-2$
-        } else {
-            outerForEachElement.addAttribute(new Attribute(
-                    "collection", "oredCriteria")); //$NON-NLS-1$ //$NON-NLS-2$
+            sb.setLength(0);
+            sb.append(MyBatis3FormattingUtilities
+                    .getEscapedColumnName(introspectedColumn));
+            sb.append(" = "); //$NON-NLS-1$
+            sb.append(MyBatis3FormattingUtilities
+                    .getParameterClause(introspectedColumn));
+            sb.append(',');
+
+            isNotNullElement.addElement(new TextElement(sb.toString()));
         }
-        outerForEachElement.addAttribute(new Attribute("item", "criteria")); //$NON-NLS-1$ //$NON-NLS-2$
-        outerForEachElement.addAttribute(new Attribute("separator", "or")); //$NON-NLS-1$ //$NON-NLS-2$
-        whereElement.addElement(outerForEachElement);
 
-        XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
-        ifElement.addAttribute(new Attribute("test", "criteria.valid")); //$NON-NLS-1$ //$NON-NLS-2$
-        outerForEachElement.addElement(ifElement);
 
-        XmlElement trimElement = new XmlElement("trim"); //$NON-NLS-1$
-        trimElement.addAttribute(new Attribute("prefix", "(")); //$NON-NLS-1$ //$NON-NLS-2$
-        trimElement.addAttribute(new Attribute("suffix", ")")); //$NON-NLS-1$ //$NON-NLS-2$
-        trimElement.addAttribute(new Attribute("prefixOverrides", "and")); //$NON-NLS-1$ //$NON-NLS-2$
+        //XmlElement outerForEachElement = new XmlElement("foreach"); //$NON-NLS-1$
+        //if (isForUpdateByExample) {
+        //    outerForEachElement.addAttribute(new Attribute(
+        //            "collection", "example.oredCriteria")); //$NON-NLS-1$ //$NON-NLS-2$
+        //} else {
+        //    outerForEachElement.addAttribute(new Attribute(
+        //            "collection", "oredCriteria")); //$NON-NLS-1$ //$NON-NLS-2$
+        //}
+        //outerForEachElement.addAttribute(new Attribute("item", "criteria")); //$NON-NLS-1$ //$NON-NLS-2$
+        //outerForEachElement.addAttribute(new Attribute("separator", "or")); //$NON-NLS-1$ //$NON-NLS-2$
+        //whereElement.addElement(outerForEachElement);
+        //
+        //XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
+        //ifElement.addAttribute(new Attribute("test", "criteria.valid")); //$NON-NLS-1$ //$NON-NLS-2$
+        //outerForEachElement.addElement(ifElement);
+        //
+        //XmlElement trimElement = new XmlElement("trim"); //$NON-NLS-1$
+        //trimElement.addAttribute(new Attribute("prefix", "(")); //$NON-NLS-1$ //$NON-NLS-2$
+        //trimElement.addAttribute(new Attribute("suffix", ")")); //$NON-NLS-1$ //$NON-NLS-2$
+        //trimElement.addAttribute(new Attribute("prefixOverrides", "and")); //$NON-NLS-1$ //$NON-NLS-2$
 
-        ifElement.addElement(trimElement);
+        //ifElement.addElement(trimElement);
+        //
+        //trimElement.addElement(getMiddleForEachElement(null));
 
-        trimElement.addElement(getMiddleForEachElement(null));
-
-        for (IntrospectedColumn introspectedColumn : introspectedTable
-                .getNonBLOBColumns()) {
-            if (stringHasValue(introspectedColumn
-                    .getTypeHandler())) {
-                trimElement
-                        .addElement(getMiddleForEachElement(introspectedColumn));
-            }
-        }
+        //for (IntrospectedColumn introspectedColumn : introspectedTable
+        //        .getNonBLOBColumns()) {
+        //    if (stringHasValue(introspectedColumn
+        //            .getTypeHandler())) {
+        //        trimElement
+        //                .addElement(getMiddleForEachElement(introspectedColumn));
+        //    }
+        //}
 
         if (context.getPlugins()
                 .sqlMapExampleWhereClauseElementGenerated(answer,
