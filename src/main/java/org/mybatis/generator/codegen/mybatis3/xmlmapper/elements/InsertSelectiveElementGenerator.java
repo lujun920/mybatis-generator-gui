@@ -38,6 +38,9 @@ public class InsertSelectiveElementGenerator extends
 
     @Override
     public void addElements(XmlElement parentElement) {
+        if(true){
+            return;
+        }
         XmlElement answer = new XmlElement("insert"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute(
