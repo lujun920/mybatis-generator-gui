@@ -63,6 +63,7 @@ public class ExampleWhereClauseElementGenerator extends
         XmlElement whereElement = new XmlElement("where"); //$NON-NLS-1$
         answer.addElement(whereElement);
         StringBuilder sb = new StringBuilder();
+        int index= 0;
         for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
                 .getNonPrimaryKeyColumns())) {
             XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
@@ -73,14 +74,19 @@ public class ExampleWhereClauseElementGenerator extends
             whereElement.addElement(isNotNullElement);
 
             sb.setLength(0);
+            if (index>0){
+                sb.append("AND ");
+            }
+
             sb.append(MyBatis3FormattingUtilities
                     .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn));
-            sb.append(',');
+            //sb.append(',');
 
             isNotNullElement.addElement(new TextElement(sb.toString()));
+            index++;
         }
 
 

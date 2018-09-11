@@ -15,77 +15,40 @@
     <result column="source" jdbcType="INTEGER" property="source" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <sql id="Example_Where_Clause">
+  <sql id="ABCCCExample_Where_Clause">
     <where>
       <if test="userId != null">
-        user_id = #{userId},
+        user_id = #{userId}
       </if>
       <if test="adId != null">
-        ad_id = #{adId},
+        AND ad_id = #{adId}
       </if>
       <if test="adSeatId != null">
-        ad_seat_id = #{adSeatId},
+        AND ad_seat_id = #{adSeatId}
       </if>
       <if test="createTime != null">
-        create_time = #{createTime},
+        AND create_time = #{createTime}
       </if>
       <if test="mobileOs != null">
-        mobile_os = #{mobileOs},
+        AND mobile_os = #{mobileOs}
       </if>
       <if test="mobileModel != null">
-        mobile_model = #{mobileModel},
+        AND mobile_model = #{mobileModel}
       </if>
       <if test="ip != null">
-        ip = #{ip},
+        AND ip = #{ip}
       </if>
       <if test="netType != null">
-        net_type = #{netType},
+        AND net_type = #{netType}
       </if>
       <if test="shopId != null">
-        shop_id = #{shopId},
+        AND shop_id = #{shopId}
       </if>
       <if test="source != null">
-        source = #{source},
+        AND source = #{source}
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime},
-      </if>
-    </where>
-  </sql>
-  <sql id="Example_Where_Clause">
-    <where>
-      <if test="userId != null">
-        user_id = #{userId},
-      </if>
-      <if test="adId != null">
-        ad_id = #{adId},
-      </if>
-      <if test="adSeatId != null">
-        ad_seat_id = #{adSeatId},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime},
-      </if>
-      <if test="mobileOs != null">
-        mobile_os = #{mobileOs},
-      </if>
-      <if test="mobileModel != null">
-        mobile_model = #{mobileModel},
-      </if>
-      <if test="ip != null">
-        ip = #{ip},
-      </if>
-      <if test="netType != null">
-        net_type = #{netType},
-      </if>
-      <if test="shopId != null">
-        shop_id = #{shopId},
-      </if>
-      <if test="source != null">
-        source = #{source},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime},
+        AND update_time = #{updateTime}
       </if>
     </where>
   </sql>
