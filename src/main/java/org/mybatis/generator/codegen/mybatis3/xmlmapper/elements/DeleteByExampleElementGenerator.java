@@ -18,6 +18,7 @@ package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
  * 
@@ -33,22 +34,46 @@ public class DeleteByExampleElementGenerator extends
 
     @Override
     public void addElements(XmlElement parentElement) {
-        XmlElement answer = new XmlElement("delete"); //$NON-NLS-1$
+        //XmlElement answer = new XmlElement("delete"); //$NON-NLS-1$
+        //String fqjt = introspectedTable.getExampleType();
+        //answer.addAttribute(new Attribute(
+        //        "id", introspectedTable.getDeleteByExampleStatementId())); //$NON-NLS-1$
+        //answer.addAttribute(new Attribute("parameterType", fqjt)); //$NON-NLS-1$
+        //context.getCommentGenerator().addComment(answer);
+        //StringBuilder sb = new StringBuilder();
+        //sb.append("delete from "); //$NON-NLS-1$
+        //sb.append(introspectedTable
+        //        .getAliasedFullyQualifiedTableNameAtRuntime());
+        //answer.addElement(new TextElement(sb.toString()));
+        //answer.addElement(getExampleIncludeElement());
+        //
+        //if (context.getPlugins().sqlMapDeleteByExampleElementGenerated(
+        //        answer, introspectedTable)) {
+        //    parentElement.addElement(answer);
+        //}
 
-        String fqjt = introspectedTable.getExampleType();
-
+        /**
+         * 删除改为逻辑删除实现
+         * baizhang
+         */
+        XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
+        String fqjt = introspectedTable.getBaseRecordType();
         answer.addAttribute(new Attribute(
-                "id", introspectedTable.getDeleteByExampleStatementId())); //$NON-NLS-1$
+                "id", "removeRecord")); //$NON-NLS-1$
         answer.addAttribute(new Attribute("parameterType", fqjt)); //$NON-NLS-1$
-
         context.getCommentGenerator().addComment(answer);
-
         StringBuilder sb = new StringBuilder();
-        sb.append("delete from "); //$NON-NLS-1$
+        sb.append("UPDATE "); //$NON-NLS-1$
         sb.append(introspectedTable
                 .getAliasedFullyQualifiedTableNameAtRuntime());
+        sb.append(" SET deleted = 1 WHERE ");
+        sb.append(MyBatis3FormattingUtilities
+                .getEscapedColumnName(introspectedTable.getPrimaryKeyColumns().get(0)));
+        sb.append(" = "); //$NON-NLS-1$
+        sb.append(MyBatis3FormattingUtilities
+                .getParameterClause(introspectedTable.getPrimaryKeyColumns().get(0)));
         answer.addElement(new TextElement(sb.toString()));
-        answer.addElement(getExampleIncludeElement());
+        //answer.addElement(getExampleIncludeElement());
 
         if (context.getPlugins().sqlMapDeleteByExampleElementGenerated(
                 answer, introspectedTable)) {

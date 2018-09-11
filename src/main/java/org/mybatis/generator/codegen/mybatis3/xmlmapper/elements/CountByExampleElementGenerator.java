@@ -32,6 +32,9 @@ public class CountByExampleElementGenerator extends AbstractXmlElementGenerator 
 
     @Override
     public void addElements(XmlElement parentElement) {
+        if(true){
+            return;
+        }
         XmlElement answer = new XmlElement("select"); //$NON-NLS-1$
 
         String fqjt = introspectedTable.getExampleType();

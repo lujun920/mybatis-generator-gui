@@ -53,7 +53,7 @@ public class SelectByExampleWithoutBLOBsElementGenerator extends
 
         context.getCommentGenerator().addComment(answer);
 
-        answer.addElement(new TextElement("select")); //$NON-NLS-1$
+        answer.addElement(new TextElement("SELECT")); //$NON-NLS-1$
 
         /**
          * 去掉select 的 if distinct
@@ -75,7 +75,7 @@ public class SelectByExampleWithoutBLOBsElementGenerator extends
         answer.addElement(getBaseColumnListElement());
 
         sb.setLength(0);
-        sb.append("from "); //$NON-NLS-1$
+        sb.append("FROM "); //$NON-NLS-1$
         sb.append(introspectedTable
                 .getAliasedFullyQualifiedTableNameAtRuntime());
         answer.addElement(new TextElement(sb.toString()));

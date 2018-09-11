@@ -15,7 +15,7 @@
     <result column="source" jdbcType="INTEGER" property="source" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <sql id="ABCCCExample_Where_Clause">
+  <sql id="Example_Where_Clause">
     <where>
       <if test="userId != null">
         user_id = #{userId}
@@ -57,9 +57,9 @@
     shop_id, source, update_time
   </sql>
   <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
-    select
+    SELECT
     <include refid="Base_Column_List" />
-    from "ad_click"
+    FROM "ad_click"
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -73,37 +73,24 @@
     </if>
   </select>
   <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
-    select 
+    SELECT 
     <include refid="Base_Column_List" />
-    from "ad_click"
+    FROM "ad_click"
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from "ad_click"
-    where id = #{id}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.youdian.pay.dao.model.AdClickExample">
-    delete from "ad_click"
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
   <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
-    insert into "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
       ip, net_type, shop_id, source, update_time)
-    values (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
       #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
   </insert>
-  <select id="countByExample" parameterType="com.youdian.pay.dao.model.AdClickExample" resultType="java.lang.Long">
-    select count(*) from "ad_click"
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
   <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
-    update "ad_click"
+    UPDATE "ad_click"
     <set>
       <if test="userId != null">
         user_id = #{userId},
@@ -139,6 +126,6 @@
         update_time = #{updateTime},
       </if>
     </set>
-    where id = #{id}
+    WHERE id = #{id}
   </update>
 </mapper>
