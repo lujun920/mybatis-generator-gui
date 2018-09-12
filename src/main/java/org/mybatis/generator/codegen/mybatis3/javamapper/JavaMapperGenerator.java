@@ -15,7 +15,10 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.mybatis.generator.api.CommentGenerator;
@@ -69,11 +72,37 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
                 introspectedTable.getFullyQualifiedTable().toString()));
         CommentGenerator commentGenerator = context.getCommentGenerator();
 
-        FullyQualifiedJavaType type = new FullyQualifiedJavaType(
-                introspectedTable.getMyBatis3JavaMapperType());
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
         Interface interfaze = new Interface(type);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
+        /**
+         * 版权信息
+         */
+        interfaze.addFileCommentLine("/*\n"
+                + " * Dian.so Inc.\n"
+                + " * Copyright (c) 2016-" + Calendar.getInstance().get(Calendar.YEAR) + " All Rights Reserved.\n"
+                + " */");
+        /**
+         *
+         * TODO
+         * @author ${baizhang}
+         * @version $Id: ${NAME}.java, v 0.1 ${YEAR}-${MONTH}-${DAY} ${TIME} Exp $
+         */
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        StringBuilder sb = new StringBuilder();
+        sb.append("/**\n");
+        sb.append(" * 有BaseDAO，可以把以下四个方法删除\n");
+        sb.append(" *\n");
+        sb.append(" * @author MBG插件生成\n");
+        sb.append(" * @version $Id: ").append(type.getShortName())
+                .append(".java, v 0.1 ")
+                .append(format.format(new Date()))
+                .append(" Exp $\n");
+        sb.append(" */");
+        interfaze.addJavaDocLine(sb.toString());
         commentGenerator.addJavaFileComment(interfaze);
+
+
 
         String rootInterface = introspectedTable
             .getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
@@ -88,19 +117,28 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             interfaze.addSuperInterface(fqjt);
             interfaze.addImportedType(fqjt);
         }
-        
-        //addCountByExampleMethod(interfaze);
-        addDeleteByExampleMethod(interfaze);
-        //addDeleteByPrimaryKeyMethod(interfaze);
-        addInsertMethod(interfaze);
-        //addInsertSelectiveMethod(interfaze);
-        addSelectByExampleWithBLOBsMethod(interfaze);
+
+        /**
+         *
+         * TODO
+         * @author ${baizhang}
+         * @version $Id: ${NAME}.java, v 0.1 ${YEAR}-${MONTH}-${DAY} ${TIME} Exp $
+         */
+
         addSelectByExampleWithoutBLOBsMethod(interfaze);
         addSelectByPrimaryKeyMethod(interfaze);
+        addInsertMethod(interfaze);
+        addDeleteByExampleMethod(interfaze);
+        addUpdateByPrimaryKeySelectiveMethod(interfaze);
+
+
+        //addSelectByExampleWithBLOBsMethod(interfaze);
+        //addCountByExampleMethod(interfaze);
+        //addDeleteByPrimaryKeyMethod(interfaze);
+        //addInsertSelectiveMethod(interfaze);
         //addUpdateByExampleSelectiveMethod(interfaze);
         //addUpdateByExampleWithBLOBsMethod(interfaze);
         //addUpdateByExampleWithoutBLOBsMethod(interfaze);
-        addUpdateByPrimaryKeySelectiveMethod(interfaze);
         //addUpdateByPrimaryKeyWithBLOBsMethod(interfaze);
         //addUpdateByPrimaryKeyWithoutBLOBsMethod(interfaze);
 
@@ -109,7 +147,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
                 introspectedTable)) {
             answer.add(interfaze);
         }
-        
+
         List<CompilationUnit> extraCompilationUnits = getExtraCompilationUnits();
         if (extraCompilationUnits != null) {
             answer.addAll(extraCompilationUnits);

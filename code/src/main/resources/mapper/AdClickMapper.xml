@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.youdian.pay.dao.AdClickMapper">
+<mapper namespace="com.youdian.pay.dao.AdClickDAO">
   <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
     <id column="id" jdbcType="INTEGER" property="id" />
     <!-- 用户id -->
@@ -100,10 +100,157 @@
     </if>
   </select>
   
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
   <!-- ============ removeRecord 逻辑删除 ============ -->
   <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
     UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
   </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
   
   <!-- ============ saveRecord 单条插入 ============ -->
   <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
@@ -112,6 +259,5635 @@
     VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
       #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
   </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
+  <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click"
+    <set>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+      <if test="adId != null">
+        ad_id = #{adId},
+      </if>
+      <if test="adSeatId != null">
+        ad_seat_id = #{adSeatId},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="mobileOs != null">
+        mobile_os = #{mobileOs},
+      </if>
+      <if test="mobileModel != null">
+        mobile_model = #{mobileModel},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="netType != null">
+        net_type = #{netType},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="source != null">
+        source = #{source},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+  <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
+    <result column="user_id" property="userId" />
+    <!-- 广告id -->
+    <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
+    <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
+    <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
+    <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
+    <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
+    <result column="ip" property="ip" />
+    <!-- 联网方式 -->
+    <result column="net_type" property="netType" />
+    <!-- 门店id -->
+    <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
+    <result column="source" property="source" />
+    <!-- 更新时间 -->
+    <result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
+  <sql id="Example_Where_Clause">
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="adId != null">
+        AND ad_id = #{adId}
+      </if>
+      <if test="adSeatId != null">
+        AND ad_seat_id = #{adSeatId}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="mobileOs != null">
+        AND mobile_os = #{mobileOs}
+      </if>
+      <if test="mobileModel != null">
+        AND mobile_model = #{mobileModel}
+      </if>
+      <if test="ip != null">
+        AND ip = #{ip}
+      </if>
+      <if test="netType != null">
+        AND net_type = #{netType}
+      </if>
+      <if test="shopId != null">
+        AND shop_id = #{shopId}
+      </if>
+      <if test="source != null">
+        AND source = #{source}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
+  <sql id="Base_Column_List">
+    id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
+    shop_id, source, update_time
+  </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
+  <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
+  <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM "ad_click"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
+  <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
+      ip, net_type, shop_id, source, update_time)
+    VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
+      #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
+  </insert>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
+  <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
+    UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
+  </update>
   
   <!-- ============ updateRecord 更新by 主键 ============ -->
   <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">

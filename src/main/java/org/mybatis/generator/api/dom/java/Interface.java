@@ -15,11 +15,6 @@
  */
 package org.mybatis.generator.api.dom.java;
 
-import static org.mybatis.generator.api.dom.OutputUtilities.calculateImports;
-import static org.mybatis.generator.api.dom.OutputUtilities.javaIndent;
-import static org.mybatis.generator.api.dom.OutputUtilities.newLine;
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -27,6 +22,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import static org.mybatis.generator.api.dom.OutputUtilities.calculateImports;
+import static org.mybatis.generator.api.dom.OutputUtilities.javaIndent;
+import static org.mybatis.generator.api.dom.OutputUtilities.newLine;
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 /**
  * The Class Interface.
@@ -121,7 +121,7 @@ public class Interface extends JavaElement implements CompilationUnit {
             sb.append(';');
             newLine(sb);
         }
-        
+
         if (staticImports.size() > 0) {
             newLine(sb);
         }
@@ -135,11 +135,16 @@ public class Interface extends JavaElement implements CompilationUnit {
         if (importStrings.size() > 0) {
             newLine(sb);
         }
-
+        //sb.append("import org.apache.ibatis.annotations.Mapper;");
+        //newLine(sb);
+        sb.append("");
+        newLine(sb);
         int indentLevel = 0;
 
         addFormattedJavadoc(sb, indentLevel);
         addFormattedAnnotations(sb, indentLevel);
+        sb.append("@Mapper");
+        newLine(sb);
 
         sb.append(getVisibility().getValue());
 

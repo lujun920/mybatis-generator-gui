@@ -15,15 +15,15 @@
  */
 package org.mybatis.generator.api.dom.java;
 
-import static org.mybatis.generator.api.dom.OutputUtilities.calculateImports;
-import static org.mybatis.generator.api.dom.OutputUtilities.newLine;
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import static org.mybatis.generator.api.dom.OutputUtilities.calculateImports;
+import static org.mybatis.generator.api.dom.OutputUtilities.newLine;
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 /**
  * The Class TopLevelClass.
@@ -125,7 +125,9 @@ public class TopLevelClass extends InnerClass implements CompilationUnit {
         if (staticImports.size() > 0) {
             newLine(sb);
         }
-        
+
+
+
         Set<String> importStrings = calculateImports(importedTypes);
         for (String importString : importStrings) {
             sb.append(importString);
@@ -135,7 +137,6 @@ public class TopLevelClass extends InnerClass implements CompilationUnit {
         if (importStrings.size() > 0) {
             newLine(sb);
         }
-
         sb.append(super.getFormattedContent(0, this));
 
         return sb.toString();

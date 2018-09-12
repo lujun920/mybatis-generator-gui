@@ -185,7 +185,7 @@
                                     </HBox>
                                     <HBox>
                                        <children>
-                                          <CheckBox fx:id="needToStringHashcodeEquals" mnemonicParsing="false" selected="true" text="生成toString/hashCode/equals方法" />
+                                          <CheckBox fx:id="needToStringHashcodeEquals" mnemonicParsing="false" selected="false" text="生成toString/hashCode/equals方法" />
                                        </children>
                                     </HBox>
                                     <HBox spacing="18.0">

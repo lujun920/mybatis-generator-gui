@@ -54,9 +54,9 @@ public class UpdateByPrimaryKeySelectiveMethodGenerator extends
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.setName(introspectedTable
-                .getUpdateByPrimaryKeySelectiveStatementId());
-        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
+        //method.setName(introspectedTable.getUpdateByPrimaryKeySelectiveStatementId());
+        method.setName("updateRecord");
+        method.addParameter(new Parameter(parameterType, "model")); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);

@@ -15,10 +15,6 @@
  */
 package org.mybatis.generator.codegen.mybatis3.model;
 
-import static org.mybatis.generator.internal.util.JavaBeansUtil.getGetterMethodName;
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +34,10 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
+import static org.mybatis.generator.internal.util.JavaBeansUtil.getGetterMethodName;
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
+
 /**
  * 
  * @author Jeff Butler
@@ -51,6 +51,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
 
     @Override
     public List<CompilationUnit> getCompilationUnits() {
+
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         progressCallback.startTask(getString(
                 "Progress.6", table.toString())); //$NON-NLS-1$
@@ -68,7 +69,6 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         method.setConstructor(true);
         method.setName(type.getShortName());
         method.addBodyLine("oredCriteria = new ArrayList<Criteria>();"); //$NON-NLS-1$
-
         commentGenerator.addGeneralMethodComment(method, introspectedTable);
         topLevelClass.addMethod(method);
 

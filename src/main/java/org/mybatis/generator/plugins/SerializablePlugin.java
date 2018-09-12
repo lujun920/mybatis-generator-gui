@@ -18,6 +18,7 @@ package org.mybatis.generator.plugins;
 import java.util.List;
 import java.util.Properties;
 
+import com.zzg.mybatis.generator.util.RadomCodeUtil;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Field;
@@ -97,11 +98,13 @@ public class SerializablePlugin extends PluginAdapter {
 
             Field field = new Field();
             field.setFinal(true);
-            field.setInitializationString("1L"); //$NON-NLS-1$
+
+            field.setInitializationString("17"+ RadomCodeUtil.generateTextCode(RadomCodeUtil.TYPE_NUM_ONLY, 16, null)+"L"); //$NON-NLS-1$
             field.setName("serialVersionUID"); //$NON-NLS-1$
             field.setStatic(true);
             field.setType(new FullyQualifiedJavaType("long")); //$NON-NLS-1$
             field.setVisibility(JavaVisibility.PRIVATE);
+            field.addJavaDocLine("/** serialVersionUID */");
             context.getCommentGenerator().addFieldComment(field, introspectedTable);
 
             topLevelClass.addField(field);

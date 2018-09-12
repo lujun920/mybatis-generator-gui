@@ -16,14 +16,23 @@
 
 package com.zzg.mybatis.generator.plugins;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
+
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.dom.java.*;
+import org.mybatis.generator.api.dom.java.CompilationUnit;
+import org.mybatis.generator.api.dom.java.Field;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.InnerClass;
+import org.mybatis.generator.api.dom.java.InnerEnum;
+import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.internal.util.StringUtility;
-
-import java.util.Properties;
 
 import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
@@ -89,12 +98,36 @@ public class DbRemarksCommentGenerator implements CommentGenerator {
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass,
                                 IntrospectedTable introspectedTable) {
-        topLevelClass.addJavaDocLine("/**");
-        topLevelClass.addJavaDocLine(" * @author ");
-        topLevelClass.addJavaDocLine(" */");
+        //topLevelClass.addJavaDocLine("/**");
+        //topLevelClass.addJavaDocLine(" * @author ");
+        //topLevelClass.addJavaDocLine(" */");
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        StringBuilder sb = new StringBuilder();
+        sb.append("/**\n");
+        sb.append(" * TODO\n");
+        sb.append(" *\n");
+        sb.append(" * @author MBG插件生成\n");
+        sb.append(" * @version $Id: ").append(topLevelClass.getType().getShortName())
+                .append(".java, v 0.1 ")
+                .append(format.format(new Date()))
+                .append(" Exp $\n");
+        sb.append(" */");
+        topLevelClass.addJavaDocLine(sb.toString());
         if(isAnnotations) {
             topLevelClass.addAnnotation("@Table(name=\"" + introspectedTable.getFullyQualifiedTableNameAtRuntime() + "\")");
         }
+    }
+
+    @Override
+    public void addCopyRightComment(TopLevelClass topLevelClass){
+        StringBuilder stringBuilder= new StringBuilder();
+
+        stringBuilder.append("/*\n"
+                + " * Dian.so Inc.\n"
+                + " * Copyright (c) 2016-" + Calendar.getInstance().get(Calendar.YEAR) + " All Rights Reserved.\n"
+                + " */");
+        topLevelClass.addFileCommentLine(stringBuilder.toString());
     }
 
     @Override

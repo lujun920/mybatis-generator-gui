@@ -45,7 +45,8 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setVisibility(JavaVisibility.PUBLIC);
-        method.setName(introspectedTable.getInsertStatementId());
+        //method.setName(introspectedTable.getInsertStatementId());
+        method.setName("saveRecord");
 
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
@@ -57,7 +58,7 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
         }
 
         importedTypes.add(parameterType);
-        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
+        method.addParameter(new Parameter(parameterType, "model")); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);
@@ -67,6 +68,7 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
         if (context.getPlugins().clientInsertMethodGenerated(method, interfaze,
                 introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);
+
             interfaze.addMethod(method);
         }
     }

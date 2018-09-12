@@ -92,6 +92,13 @@ public interface CommentGenerator {
                               IntrospectedTable introspectedTable);
 
     /**
+     * 版权信息
+     *
+     * @param topLevelClass
+     */
+    void addCopyRightComment(TopLevelClass topLevelClass);
+
+    /**
      * Adds the inner class comment.
      *
      * @param innerClass

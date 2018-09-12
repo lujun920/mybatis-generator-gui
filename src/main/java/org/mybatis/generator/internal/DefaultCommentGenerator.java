@@ -15,8 +15,6 @@
  */
 package org.mybatis.generator.internal;
 
-import static org.mybatis.generator.internal.util.StringUtility.isTrue;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -37,6 +35,8 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.config.MergeConstants;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.util.StringUtility;
+
+import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
 /**
  * The Class DefaultCommentGenerator.
@@ -240,6 +240,11 @@ public class DefaultCommentGenerator implements CommentGenerator {
         addJavadocTag(topLevelClass, true);
 
         topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
+    }
+
+    @Override
+    public void addCopyRightComment(final TopLevelClass topLevelClass) {
+
     }
 
     /* (non-Javadoc)

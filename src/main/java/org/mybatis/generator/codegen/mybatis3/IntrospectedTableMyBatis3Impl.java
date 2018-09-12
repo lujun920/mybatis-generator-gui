@@ -32,7 +32,6 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.AnnotatedClientGenerato
 import org.mybatis.generator.codegen.mybatis3.javamapper.JavaMapperGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.MixedClientGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
-import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
@@ -169,12 +168,16 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
      */
     protected void calculateJavaModelGenerators(List<String> warnings,
             ProgressCallback progressCallback) {
-        if (getRules().generateExampleClass()) {
-            AbstractJavaGenerator javaGenerator = new ExampleGenerator();
-            initializeAbstractGenerator(javaGenerator, warnings,
-                    progressCallback);
-            javaModelGenerators.add(javaGenerator);
-        }
+        /**
+         * 关闭ExampleModel输出
+         * baizhang
+         */
+        //if (getRules().generateExampleClass()) {
+        //    AbstractJavaGenerator javaGenerator = new ExampleGenerator();
+        //    initializeAbstractGenerator(javaGenerator, warnings,
+        //            progressCallback);
+        //    javaModelGenerators.add(javaGenerator);
+        //}
 
         if (getRules().generatePrimaryKeyClass()) {
             AbstractJavaGenerator javaGenerator = new PrimaryKeyGenerator();

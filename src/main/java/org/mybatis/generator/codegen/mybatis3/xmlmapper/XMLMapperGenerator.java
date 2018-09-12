@@ -76,10 +76,10 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addSelectByExampleWithoutBLOBsElement(answer);
         // getRecord
         addSelectByPrimaryKeyElement(answer);
-        // update逻辑删除
-        addDeleteByExampleElement(answer);
         // saveRecord
         addInsertElement(answer);
+        // update逻辑删除
+        addDeleteByExampleElement(answer);
         // updateRecord
         addUpdateByPrimaryKeySelectiveElement(answer);
 

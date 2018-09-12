@@ -15,11 +15,9 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
@@ -44,6 +42,8 @@ public class SelectByPrimaryKeyMethodGenerator extends
     @Override
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(
+                introspectedTable.getBaseRecordType());
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
 
@@ -52,42 +52,50 @@ public class SelectByPrimaryKeyMethodGenerator extends
         method.setReturnType(returnType);
         importedTypes.add(returnType);
 
-        method.setName(introspectedTable.getSelectByPrimaryKeyStatementId());
+        //method.setName(introspectedTable.getSelectByPrimaryKeyStatementId());
+        method.setName("getRecord");
 
-        if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
-            FullyQualifiedJavaType type = new FullyQualifiedJavaType(
-                    introspectedTable.getPrimaryKeyType());
-            importedTypes.add(type);
-            method.addParameter(new Parameter(type, "key")); //$NON-NLS-1$
-        } else {
-            // no primary key class - fields are in the base class
-            // if more than one PK field, then we need to annotate the
-            // parameters
-            // for MyBatis3
-            List<IntrospectedColumn> introspectedColumns = introspectedTable
-                    .getPrimaryKeyColumns();
-            boolean annotate = introspectedColumns.size() > 1;
-            if (annotate) {
-                importedTypes.add(new FullyQualifiedJavaType(
-                        "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
-            }
-            StringBuilder sb = new StringBuilder();
-            for (IntrospectedColumn introspectedColumn : introspectedColumns) {
-                FullyQualifiedJavaType type = introspectedColumn
-                        .getFullyQualifiedJavaType();
-                importedTypes.add(type);
-                Parameter parameter = new Parameter(type, introspectedColumn
-                        .getJavaProperty());
-                if (annotate) {
-                    sb.setLength(0);
-                    sb.append("@Param(\""); //$NON-NLS-1$
-                    sb.append(introspectedColumn.getJavaProperty());
-                    sb.append("\")"); //$NON-NLS-1$
-                    parameter.addAnnotation(sb.toString());
-                }
-                method.addParameter(parameter);
-            }
-        }
+        method.addParameter(new Parameter(type, "model")); //$NON-NLS-1$
+
+        /**
+         * 为了方便获取泛型类型，暂时以第一个方法生成中加入
+         */
+        interfaze.addSuperInterface(new FullyQualifiedJavaType("BaseDAO<" + returnType.getShortName() + ">"));
+
+
+        //if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
+        //    FullyQualifiedJavaType type = new FullyQualifiedJavaType(
+        //            introspectedTable.getPrimaryKeyType());
+        //    importedTypes.add(type);
+        //    method.addParameter(new Parameter(type, "key")); //$NON-NLS-1$
+        //} else {
+        //    // no primary key class - fields are in the base class
+        //    // if more than one PK field, then we need to annotate the
+        //    // parameters
+        //    // for MyBatis3
+        //    List<IntrospectedColumn> introspectedColumns = introspectedTable.getPrimaryKeyColumns();
+        //    boolean annotate = introspectedColumns.size() > 1;
+        //    if (annotate) {
+        //        importedTypes.add(new FullyQualifiedJavaType(
+        //                "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
+        //    }
+        //    StringBuilder sb = new StringBuilder();
+        //    for (IntrospectedColumn introspectedColumn : introspectedColumns) {
+        //        FullyQualifiedJavaType type = introspectedColumn
+        //                .getFullyQualifiedJavaType();
+        //        importedTypes.add(type);
+        //        Parameter parameter = new Parameter(type, introspectedColumn
+        //                .getJavaProperty());
+        //        if (annotate) {
+        //            sb.setLength(0);
+        //            sb.append("@Param(\""); //$NON-NLS-1$
+        //            sb.append(introspectedColumn.getJavaProperty());
+        //            sb.append("\")"); //$NON-NLS-1$
+        //            parameter.addAnnotation(sb.toString());
+        //        }
+        //        method.addParameter(parameter);
+        //    }
+        //}
         
         addMapperAnnotations(interfaze, method);
 
