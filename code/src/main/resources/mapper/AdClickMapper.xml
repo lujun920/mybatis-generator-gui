@@ -3,16 +3,27 @@
 <mapper namespace="com.youdian.pay.dao.AdClickMapper">
   <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <!-- 用户id -->
     <result column="user_id" property="userId" />
+    <!-- 广告id -->
     <result column="ad_id" property="adId" />
+    <!-- 广告位id -->
     <result column="ad_seat_id" property="adSeatId" />
+    <!-- 点击时间 -->
     <result column="create_time" property="createTime" />
+    <!-- 手机系统 -->
     <result column="mobile_os" property="mobileOs" />
+    <!-- 手机型号 -->
     <result column="mobile_model" property="mobileModel" />
+    <!-- 手机ip -->
     <result column="ip" property="ip" />
+    <!-- 联网方式 -->
     <result column="net_type" property="netType" />
+    <!-- 门店id -->
     <result column="shop_id" property="shopId" />
+    <!-- 来源渠道 -->
     <result column="source" property="source" />
+    <!-- 更新时间 -->
     <result column="update_time" property="updateTime" />
   </resultMap>
   

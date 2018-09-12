@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
+import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
@@ -103,8 +104,7 @@ public class ResultMapWithoutBLOBsElementGenerator extends
         for (IntrospectedColumn introspectedColumn : columns) {
             XmlElement resultElement = new XmlElement("result"); //$NON-NLS-1$
 
-            resultElement
-                    .addAttribute(new Attribute(
+            resultElement.addAttribute(new Attribute(
                             "column", MyBatis3FormattingUtilities.getRenamedColumnNameForResultMap(introspectedColumn))); //$NON-NLS-1$
             resultElement.addAttribute(new Attribute(
                     "property", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
@@ -115,7 +115,7 @@ public class ResultMapWithoutBLOBsElementGenerator extends
                 resultElement.addAttribute(new Attribute(
                         "typeHandler", introspectedColumn.getTypeHandler())); //$NON-NLS-1$
             }
-
+            answer.addElement(new TextElement("<!-- "+introspectedColumn.getRemarks()+" -->"));
             answer.addElement(resultElement);
         }
     }
@@ -153,8 +153,7 @@ public class ResultMapWithoutBLOBsElementGenerator extends
         for (IntrospectedColumn introspectedColumn : columns) {
             XmlElement resultElement = new XmlElement("arg"); //$NON-NLS-1$
 
-            resultElement
-                    .addAttribute(new Attribute(
+            resultElement.addAttribute(new Attribute(
                             "column", MyBatis3FormattingUtilities.getRenamedColumnNameForResultMap(introspectedColumn))); //$NON-NLS-1$
             resultElement.addAttribute(new Attribute("jdbcType", //$NON-NLS-1$
                     introspectedColumn.getJdbcTypeName()));
