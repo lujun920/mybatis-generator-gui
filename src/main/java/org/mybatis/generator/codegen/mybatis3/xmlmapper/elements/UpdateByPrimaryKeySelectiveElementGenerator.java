@@ -108,6 +108,8 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
         if (context.getPlugins()
                 .sqlMapUpdateByPrimaryKeySelectiveElementGenerated(answer,
                         introspectedTable)) {
+            parentElement.addElement(new TextElement(""));
+            parentElement.addElement(new TextElement("<!-- ============ updateRecord 更新by 主键 ============ -->"));
             parentElement.addElement(answer);
         }
     }

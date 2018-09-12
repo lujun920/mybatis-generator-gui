@@ -68,6 +68,8 @@ public class BaseColumnListElementGenerator extends AbstractXmlElementGenerator 
 
         if (context.getPlugins().sqlMapBaseColumnListElementGenerated(
                 answer, introspectedTable)) {
+            parentElement.addElement(new TextElement(""));
+            parentElement.addElement(new TextElement("<!-- ============ 表基础字段 ============ -->"));
             parentElement.addElement(answer);
         }
     }

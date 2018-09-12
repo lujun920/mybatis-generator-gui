@@ -130,6 +130,8 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
 
         if (context.getPlugins().sqlMapInsertElementGenerated(answer,
                 introspectedTable)) {
+            parentElement.addElement(new TextElement(""));
+            parentElement.addElement(new TextElement("<!-- ============ saveRecord 单条插入 ============ -->"));
             parentElement.addElement(answer);
         }
     }

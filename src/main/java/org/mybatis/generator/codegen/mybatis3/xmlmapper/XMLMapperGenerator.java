@@ -68,28 +68,37 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 
         addResultMapWithoutBLOBsElement(answer);
         addResultMapWithBLOBsElement(answer);
+
         addExampleWhereClauseElement(answer);
+        addBaseColumnListElement(answer);
+
+        // listRecord
+        addSelectByExampleWithoutBLOBsElement(answer);
+        // getRecord
+        addSelectByPrimaryKeyElement(answer);
+        // update逻辑删除
+        addDeleteByExampleElement(answer);
+        // saveRecord
+        addInsertElement(answer);
+        // updateRecord
+        addUpdateByPrimaryKeySelectiveElement(answer);
+
         /**
          * 关闭一个ExampleWhereClause
          * baizhang
          */
         //addMyBatis3UpdateByExampleWhereClauseElement(answer);
-        addBaseColumnListElement(answer);
-        addBlobColumnListElement(answer);
-        addSelectByExampleWithBLOBsElement(answer);
-        addSelectByExampleWithoutBLOBsElement(answer);
-        addSelectByPrimaryKeyElement(answer);
-        addDeleteByPrimaryKeyElement(answer);
-        addDeleteByExampleElement(answer);
-        addInsertElement(answer);
-        addInsertSelectiveElement(answer);
-        addCountByExampleElement(answer);
-        addUpdateByExampleSelectiveElement(answer);
-        addUpdateByExampleWithBLOBsElement(answer);
-        addUpdateByExampleWithoutBLOBsElement(answer);
-        addUpdateByPrimaryKeySelectiveElement(answer);
-        addUpdateByPrimaryKeyWithBLOBsElement(answer);
-        addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
+        //addBlobColumnListElement(answer);
+        //addSelectByExampleWithBLOBsElement(answer);
+        //addDeleteByPrimaryKeyElement(answer);
+        //addInsertSelectiveElement(answer);
+        //addCountByExampleElement(answer);
+        //addUpdateByExampleSelectiveElement(answer);
+        //addUpdateByExampleWithBLOBsElement(answer);
+        //addUpdateByExampleWithoutBLOBsElement(answer);
+
+        //addUpdateByPrimaryKeyWithBLOBsElement(answer);
+        //addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
 
         return answer;
     }

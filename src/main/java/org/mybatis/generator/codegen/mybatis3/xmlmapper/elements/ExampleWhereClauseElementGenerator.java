@@ -127,6 +127,8 @@ public class ExampleWhereClauseElementGenerator extends
         if (context.getPlugins()
                 .sqlMapExampleWhereClauseElementGenerated(answer,
                         introspectedTable)) {
+            parentElement.addElement(new TextElement(""));
+            parentElement.addElement(new TextElement("<!-- ============ WHERE条件组装 ============ -->"));
             parentElement.addElement(answer);
         }
     }

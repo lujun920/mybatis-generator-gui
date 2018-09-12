@@ -3,18 +3,20 @@
 <mapper namespace="com.youdian.pay.dao.AdClickMapper">
   <resultMap id="BaseResultMap" type="com.youdian.pay.dao.model.AdClick">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="ad_id" jdbcType="INTEGER" property="adId" />
-    <result column="ad_seat_id" jdbcType="INTEGER" property="adSeatId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="mobile_os" jdbcType="VARCHAR" property="mobileOs" />
-    <result column="mobile_model" jdbcType="VARCHAR" property="mobileModel" />
-    <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="net_type" jdbcType="VARCHAR" property="netType" />
-    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
-    <result column="source" jdbcType="INTEGER" property="source" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="user_id" property="userId" />
+    <result column="ad_id" property="adId" />
+    <result column="ad_seat_id" property="adSeatId" />
+    <result column="create_time" property="createTime" />
+    <result column="mobile_os" property="mobileOs" />
+    <result column="mobile_model" property="mobileModel" />
+    <result column="ip" property="ip" />
+    <result column="net_type" property="netType" />
+    <result column="shop_id" property="shopId" />
+    <result column="source" property="source" />
+    <result column="update_time" property="updateTime" />
   </resultMap>
+  
+  <!-- ============ WHERE条件组装 ============ -->
   <sql id="Example_Where_Clause">
     <where>
       <if test="userId != null">
@@ -52,10 +54,14 @@
       </if>
     </where>
   </sql>
+  
+  <!-- ============ 表基础字段 ============ -->
   <sql id="Base_Column_List">
     id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, ip, net_type, 
     shop_id, source, update_time
   </sql>
+  
+  <!-- ============ listRecord 列表查询 ============ -->
   <select id="listRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
@@ -72,6 +78,8 @@
       </if>
     </if>
   </select>
+  
+  <!-- ============ getRecord 单条查询 ============ -->
   <select id="getRecord" parameterType="com.youdian.pay.dao.model.AdClick" resultMap="BaseResultMap">
     SELECT 
     <include refid="Base_Column_List" />
@@ -80,15 +88,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
+  <!-- ============ removeRecord 逻辑删除 ============ -->
   <update id="removeRecord" parameterType="com.youdian.pay.dao.model.AdClick">
     UPDATE "ad_click" SET deleted = 1 WHERE id = #{id}
   </update>
+  
+  <!-- ============ saveRecord 单条插入 ============ -->
   <insert id="saveRecord" parameterType="com.youdian.pay.dao.model.AdClick">
     INSERT INTO "ad_click" (id, user_id, ad_id, ad_seat_id, create_time, mobile_os, mobile_model, 
       ip, net_type, shop_id, source, update_time)
     VALUES (#{id}, #{userId}, #{adId}, #{adSeatId}, #{createTime}, #{mobileOs}, #{mobileModel}, 
       #{ip}, #{netType}, #{shopId}, #{source}, #{updateTime})
   </insert>
+  
+  <!-- ============ updateRecord 更新by 主键 ============ -->
   <update id="updateRecord" parameterType="com.youdian.pay.dao.model.AdClick">
     UPDATE "ad_click"
     <set>

@@ -77,6 +77,8 @@ public class DeleteByExampleElementGenerator extends
 
         if (context.getPlugins().sqlMapDeleteByExampleElementGenerated(
                 answer, introspectedTable)) {
+            parentElement.addElement(new TextElement(""));
+            parentElement.addElement(new TextElement("<!-- ============ removeRecord 逻辑删除 ============ -->"));
             parentElement.addElement(answer);
         }
     }

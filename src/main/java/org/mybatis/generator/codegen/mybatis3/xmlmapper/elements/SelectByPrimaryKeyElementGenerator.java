@@ -120,6 +120,8 @@ public class SelectByPrimaryKeyElementGenerator extends
         if (context.getPlugins()
                 .sqlMapSelectByPrimaryKeyElementGenerated(answer,
                         introspectedTable)) {
+            parentElement.addElement(new TextElement(""));
+            parentElement.addElement(new TextElement("<!-- ============ getRecord 单条查询 ============ -->"));
             parentElement.addElement(answer);
         }
     }

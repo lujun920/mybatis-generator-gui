@@ -95,7 +95,10 @@ public class SelectByExampleWithoutBLOBsElementGenerator extends
         if (context.getPlugins()
                 .sqlMapSelectByExampleWithoutBLOBsElementGenerated(answer,
                         introspectedTable)) {
+            parentElement.addElement(new TextElement(""));
+            parentElement.addElement(new TextElement("<!-- ============ listRecord 列表查询 ============ -->"));
             parentElement.addElement(answer);
+
         }
     }
 }
