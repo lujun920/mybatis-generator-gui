@@ -93,7 +93,12 @@ public class SerializablePlugin extends PluginAdapter {
         }
         
         if (!suppressJavaInterface) {
-            topLevelClass.addImportedType(serializable);
+
+            /**
+             * model java.io.Serializable 包导入
+             * baizhang
+             */
+            //topLevelClass.addImportedType(serializable);
             topLevelClass.addSuperInterface(serializable);
 
             Field field = new Field();

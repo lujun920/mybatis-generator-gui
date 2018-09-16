@@ -70,6 +70,17 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
         returnType.addTypeArgument(listType);
         method.setReturnType(returnType);
 
+        /**
+         *
+         * @param model
+         * @return
+         */
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * listRecord 查询列表");
+        method.addJavaDocLine(" *");
+        method.addJavaDocLine(" * @param model              实体model");
+        method.addJavaDocLine(" * @return "+returnType.getShortName()+"     返回结果");
+        method.addJavaDocLine(" */");
         //method.setName(introspectedTable.getSelectByExampleStatementId());
         method.setName("listRecord");
         method.addParameter(new Parameter(type, "model")); //$NON-NLS-1$

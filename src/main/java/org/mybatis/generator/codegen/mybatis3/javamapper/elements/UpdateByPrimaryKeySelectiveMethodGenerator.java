@@ -55,6 +55,14 @@ public class UpdateByPrimaryKeySelectiveMethodGenerator extends
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         //method.setName(introspectedTable.getUpdateByPrimaryKeySelectiveStatementId());
+
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * updateRecord 更新记录，默认以主键作为条件更新");
+        method.addJavaDocLine(" *");
+        method.addJavaDocLine(" * @param model              实体model");
+        method.addJavaDocLine(" * @return                   updateRecord更新数据条数");
+        method.addJavaDocLine(" */");
+
         method.setName("updateRecord");
         method.addParameter(new Parameter(parameterType, "model")); //$NON-NLS-1$
 

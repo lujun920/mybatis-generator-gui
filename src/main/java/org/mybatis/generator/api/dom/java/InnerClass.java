@@ -227,20 +227,23 @@ public class InnerClass extends JavaElement {
             sb.append(JavaDomUtils.calculateTypeName(compilationUnit, superClass));
         }
 
-        if (superInterfaceTypes.size() > 0) {
-            sb.append(" implements "); //$NON-NLS-1$
-
-            boolean comma = false;
-            for (FullyQualifiedJavaType fqjt : superInterfaceTypes) {
-                if (comma) {
-                    sb.append(", "); //$NON-NLS-1$
-                } else {
-                    comma = true;
-                }
-
-                sb.append(JavaDomUtils.calculateTypeName(compilationUnit, fqjt));
-            }
-        }
+        /**
+         * model实体类 implements 序列化
+         */
+        //if (superInterfaceTypes.size() > 0) {
+        //    sb.append(" implements "); //$NON-NLS-1$
+        //
+        //    boolean comma = false;
+        //    for (FullyQualifiedJavaType fqjt : superInterfaceTypes) {
+        //        if (comma) {
+        //            sb.append(", "); //$NON-NLS-1$
+        //        } else {
+        //            comma = true;
+        //        }
+        //
+        //        sb.append(JavaDomUtils.calculateTypeName(compilationUnit, fqjt));
+        //    }
+        //}
 
         sb.append(" {"); //$NON-NLS-1$
         indentLevel++;

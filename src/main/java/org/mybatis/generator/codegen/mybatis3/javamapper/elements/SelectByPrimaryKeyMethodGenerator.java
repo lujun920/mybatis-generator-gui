@@ -52,6 +52,13 @@ public class SelectByPrimaryKeyMethodGenerator extends
         method.setReturnType(returnType);
         importedTypes.add(returnType);
 
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * getRecord 查询单条，确保条件查询结果最多返回一条");
+        method.addJavaDocLine(" *");
+        method.addJavaDocLine(" * @param model              实体model");
+        method.addJavaDocLine(" * @return " + returnType.getShortName() + "     返回结果");
+        method.addJavaDocLine(" */");
+
         //method.setName(introspectedTable.getSelectByPrimaryKeyStatementId());
         method.setName("getRecord");
 

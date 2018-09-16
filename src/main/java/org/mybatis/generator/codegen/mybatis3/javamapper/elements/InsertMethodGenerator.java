@@ -45,7 +45,16 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setVisibility(JavaVisibility.PUBLIC);
+
+
         //method.setName(introspectedTable.getInsertStatementId());
+
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * saveRecord 记录保存");
+        method.addJavaDocLine(" *");
+        method.addJavaDocLine(" * @param model              实体model");
+        method.addJavaDocLine(" * @return                   insert条数（单条1）");
+        method.addJavaDocLine(" */");
         method.setName("saveRecord");
 
         FullyQualifiedJavaType parameterType;

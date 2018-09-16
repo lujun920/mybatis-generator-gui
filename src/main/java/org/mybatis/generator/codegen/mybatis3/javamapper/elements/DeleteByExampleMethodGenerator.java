@@ -47,11 +47,19 @@ public class DeleteByExampleMethodGenerator extends
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         //method.setName(introspectedTable.getDeleteByExampleStatementId());
+
+        method.addJavaDocLine("/**");
+        method.addJavaDocLine(" * removeRecord 删除记录，逻辑删除，使用update sql更新deleted字段");
+        method.addJavaDocLine(" * 默认使用model，可调整使用其他自定义字段");
+        method.addJavaDocLine(" *");
+        method.addJavaDocLine(" * @param model              实体model");
+        method.addJavaDocLine(" * @return                   逻辑删除数据条数");
+        method.addJavaDocLine(" */");
+
         method.setName("removeRecord");
         method.addParameter(new Parameter(type, "model")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+        context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
         addMapperAnnotations(interfaze, method);
         

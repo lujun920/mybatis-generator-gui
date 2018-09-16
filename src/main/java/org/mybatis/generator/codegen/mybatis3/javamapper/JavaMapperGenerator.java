@@ -91,7 +91,9 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         StringBuilder sb = new StringBuilder();
         sb.append("/**\n");
-        sb.append(" * 有BaseDAO，可以把以下四个方法删除\n");
+        sb.append(" * 继承于BaseDAO，默认有五个方法实现\n");
+        sb.append(" * listRecord、getRecord、saveRecord、removeRecord、updateRecord\n");
+        sb.append(" * 该类默认接口方法可以删除\n");
         sb.append(" *\n");
         sb.append(" * @author MBG插件生成\n");
         sb.append(" * @version $Id: ").append(type.getShortName())
