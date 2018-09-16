@@ -69,12 +69,17 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
     @Override
     public void calculateGenerators(List<String> warnings,
             ProgressCallback progressCallback) {
+        // java model实体类 baizhang
         calculateJavaModelGenerators(warnings, progressCallback);
-        
+
+        // java DAO接口 baizhang
         AbstractJavaClientGenerator javaClientGenerator =
             calculateClientGenerators(warnings, progressCallback);
-            
+        // Mapper xml baizhang
         calculateXmlMapperGenerator(javaClientGenerator, warnings, progressCallback);
+
+
+        // 新增service生成代码，加这里
     }
 
     /**

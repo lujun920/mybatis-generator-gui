@@ -98,16 +98,13 @@ public class DbRemarksCommentGenerator implements CommentGenerator {
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass,
                                 IntrospectedTable introspectedTable) {
-        //topLevelClass.addJavaDocLine("/**");
-        //topLevelClass.addJavaDocLine(" * @author ");
-        //topLevelClass.addJavaDocLine(" */");
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         StringBuilder sb = new StringBuilder();
         sb.append("/**\n");
         sb.append(" * TODO\n");
         sb.append(" *\n");
-        sb.append(" * @author MBG插件生成\n");
+        sb.append(" * @author MBG工具生成\n");
         sb.append(" * @version $Id: ").append(topLevelClass.getType().getShortName())
                 .append(".java, v 0.1 ")
                 .append(format.format(new Date()))
