@@ -20,4 +20,6 @@ Eclipse or IntelliJ IDEA中启动, 找到```com.zzg.mybatis.generator.MainUI```�
 
 - 新增Service、ServiceImpl类生成，默认实现Dao方法调用
 
+依然有很多细节部分没顾及到，尽力让生成后的代码调整最小，后续再逐渐完善
+
 Copyright 2018 by baizhang
