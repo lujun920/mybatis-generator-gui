@@ -18,6 +18,7 @@ package org.mybatis.generator.codegen.mybatis3.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -53,7 +54,6 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                 "Progress.8", table.toString())); //$NON-NLS-1$
         Plugin plugins = context.getPlugins();
         CommentGenerator commentGenerator = context.getCommentGenerator();
-
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                 introspectedTable.getBaseRecordType());
         TopLevelClass topLevelClass = new TopLevelClass(type);
@@ -61,11 +61,11 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         commentGenerator.addJavaFileComment(topLevelClass);
         // 版权信息
         commentGenerator.addCopyRightComment(topLevelClass);
+        /**
+         * 类注释
+         */
+        commentGenerator.addModelClassComment(topLevelClass, introspectedTable);
 
-        // lombok Data
-        topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.Data"));
-        topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.EqualsAndHashCode"));
-        topLevelClass.addSuperInterface(null);
 
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
         if (context.getPlugins().modelBaseRecordClassGenerated(
@@ -73,34 +73,38 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
             answer.add(topLevelClass);
         }
 
-
         FullyQualifiedJavaType superClass = getSuperClass();
         if (superClass != null) {
             topLevelClass.setSuperClass(superClass);
             topLevelClass.addImportedType(superClass);
         }
+        // lombok Data
+        topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.Data"));
 
-
-        /**
-         * 类注释
-         */
-        commentGenerator.addModelClassComment(topLevelClass, introspectedTable);
-
+        topLevelClass.addSuperInterface(null);
 
         topLevelClass.addJavaDocLine("@Data");
-        topLevelClass.addJavaDocLine("@EqualsAndHashCode(callSuper = true)");
-        topLevelClass.setSuperClass("BaseModel<"+type.getShortName()+"> ");
 
         List<IntrospectedColumn> introspectedColumns = getColumnsInThisClass();
 
         if (introspectedTable.isConstructorBased()) {
             addParameterizedConstructor(topLevelClass);
-            
+
             if (!introspectedTable.isImmutable()) {
                 addDefaultConstructor(topLevelClass);
             }
         }
-        
+        // 继承于BaseModel
+        if(context.getJavaClientGeneratorConfiguration().getNonNeedMethod()){
+            topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.EqualsAndHashCode"));
+            topLevelClass.addJavaDocLine("@EqualsAndHashCode(callSuper = true)");
+            topLevelClass.setSuperClass("BaseModel<" + type.getShortName() + "> ");
+        }else{
+            //makeSerializable(topLevelClass, introspectedTable);
+            FullyQualifiedJavaType serializable = new FullyQualifiedJavaType("java.io.Serializable");
+            topLevelClass.addImportedType(serializable);
+            topLevelClass.addSuperInterface(new FullyQualifiedJavaType("?extends java.io.Serializable"));
+        }
         String rootClass = getRootClass();
         for (IntrospectedColumn introspectedColumn : introspectedColumns) {
             if (RootClassInfo.getInstance(rootClass, warnings)
@@ -109,43 +113,23 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
             }
 
             Field field = getJavaBeansField(introspectedColumn, context, introspectedTable);
+
+            // 继承于BaseModel，不需要生成公共字段
+            if (context.getJavaClientGeneratorConfiguration().getNonNeedMethod()) {
+                if(StringUtils.equals(field.getName(), "deleted")||
+                    StringUtils.equals(field.getName(), "createTime")||
+                    StringUtils.equals(field.getName(), "updateTime")){
+                    continue;
+                }
+            }
             if (plugins.modelFieldGenerated(field, topLevelClass,
                     introspectedColumn, introspectedTable,
                     Plugin.ModelClassType.BASE_RECORD)) {
                 topLevelClass.addField(field);
                 topLevelClass.addImportedType(field.getType());
             }
-
-            /**
-             * getter 方法
-             * baizhang
-             */
-            //Method method = getJavaBeansGetter(introspectedColumn, context, introspectedTable);
-            //if (plugins.modelGetterMethodGenerated(method, topLevelClass,
-            //        introspectedColumn, introspectedTable,
-            //        Plugin.ModelClassType.BASE_RECORD)) {
-            //    topLevelClass.addMethod(method);
-            //}
-
-            /**
-             * setter 方法
-             * baizhang
-             */
-            //if (!introspectedTable.isImmutable()) {
-            //    method = getJavaBeansSetter(introspectedColumn, context, introspectedTable);
-            //    if (plugins.modelSetterMethodGenerated(method, topLevelClass,
-            //            introspectedColumn, introspectedTable,
-            //            Plugin.ModelClassType.BASE_RECORD)) {
-            //        topLevelClass.addMethod(method);
-            //    }
-            //}
         }
 
-        //List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
-        //if (context.getPlugins().modelBaseRecordClassGenerated(
-        //        topLevelClass, introspectedTable)) {
-        //    answer.add(topLevelClass);
-        //}
         return answer;
     }
 

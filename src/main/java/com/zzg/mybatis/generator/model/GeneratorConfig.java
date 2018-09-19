@@ -24,6 +24,8 @@ public class GeneratorConfig {
 
 	private String daoPackage;
 
+	private String servicePackage;
+
 	private String daoTargetFolder;
 
 	private String mapperName;
@@ -41,6 +43,8 @@ public class GeneratorConfig {
 	private boolean comment;
 
 	private boolean needToStringHashcodeEquals;
+
+	private boolean nonNeedInterfaceImplMethod;
 
 	private boolean annotation;
 
@@ -114,6 +118,24 @@ public class GeneratorConfig {
 		this.daoPackage = daoPackage;
 	}
 
+	/**
+	 * Getter method for property <tt>servicePackage</tt>.
+	 *
+	 * @return property value of servicePackage
+	 */
+	public String getServicePackage() {
+		return servicePackage;
+	}
+
+	/**
+	 * Setter method for property <tt>servicePackage</tt>.
+	 *
+	 * @param servicePackage  value to be assigned to property servicePackage
+	 */
+	public void setServicePackage(final String servicePackage) {
+		this.servicePackage = servicePackage;
+	}
+
 	public String getDaoTargetFolder() {
 		return daoTargetFolder;
 	}
@@ -162,7 +184,25 @@ public class GeneratorConfig {
         this.needToStringHashcodeEquals = needToStringHashcodeEquals;
     }
 
-    public boolean isAnnotation() {
+	/**
+	 * Getter method for property <tt>nonNeedInterfaceImplMethod</tt>.
+	 *
+	 * @return property value of nonNeedInterfaceImplMethod
+	 */
+	public boolean isNonNeedInterfaceImplMethod() {
+		return nonNeedInterfaceImplMethod;
+	}
+
+	/**
+	 * Setter method for property <tt>nonNeedInterfaceImplMethod</tt>.
+	 *
+	 * @param nonNeedInterfaceImplMethod  value to be assigned to property nonNeedInterfaceImplMethod
+	 */
+	public void setNonNeedInterfaceImplMethod(final boolean nonNeedInterfaceImplMethod) {
+		this.nonNeedInterfaceImplMethod = nonNeedInterfaceImplMethod;
+	}
+
+	public boolean isAnnotation() {
 		return annotation;
 	}
 

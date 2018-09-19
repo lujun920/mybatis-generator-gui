@@ -25,18 +25,19 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
 
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
 /**
  * 
  * @author Jeff Butler
  * 
  */
-public class SelectByExampleServiceMethodGenerator extends
+public class GetRecordServiceImplMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
-    public SelectByExampleServiceMethodGenerator() {
+    private boolean isSimple;
+
+    public GetRecordServiceImplMethodGenerator(boolean isSimple) {
         super();
+        this.isSimple = isSimple;
     }
 
     @Override
@@ -44,52 +45,27 @@ public class SelectByExampleServiceMethodGenerator extends
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                 introspectedTable.getBaseRecordType());
-        importedTypes.add(type);
-        importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
-
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
 
-        FullyQualifiedJavaType returnType = FullyQualifiedJavaType
-                .getNewListInstance();
-        FullyQualifiedJavaType listType;
-        if (introspectedTable.getRules().generateBaseRecordClass()) {
-            listType = new FullyQualifiedJavaType(introspectedTable
-                    .getBaseRecordType());
-        } else if (introspectedTable.getRules().generatePrimaryKeyClass()) {
-            listType = new FullyQualifiedJavaType(introspectedTable
-                    .getPrimaryKeyType());
-        } else {
-            throw new RuntimeException(getString("RuntimeError.12")); //$NON-NLS-1$
-        }
-
-        importedTypes.add(listType);
-        returnType.addTypeArgument(listType);
+        FullyQualifiedJavaType returnType = introspectedTable.getRules()
+                .calculateAllFieldsClass();
         method.setReturnType(returnType);
-        interfaze.addSuperImpl(new FullyQualifiedJavaType("I" + type.getShortName() + "Service"));
-        /**
-         *
-         * @param model
-         * @return
-         */
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * listRecord 查询列表");
-        method.addJavaDocLine(" *");
-        method.addJavaDocLine(" * @param model              实体model");
-        method.addJavaDocLine(" * @return "+returnType.getShortName()+"     返回结果");
-        method.addJavaDocLine(" */");
+        importedTypes.add(returnType);
 
+        method.addAnnotation("@Override");
+        method.setName("getRecord");
 
-        method.setName("listRecord");
-        method.addParameter(new Parameter(type, "model")); //$NON-NLS-1$
+        method.addParameter(new Parameter(type, "model"));
+        method.addBodyLine("model.setDeleted(LogicDeleteEnum.FALSE.getDelete());");
+        method.addBodyLine("return dao.getRecord(model);");
+        addMapperAnnotations(interfaze, method);
 
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);
 
-        addMapperAnnotations(interfaze, method);
-        if (context.getPlugins()
-                .clientSelectByExampleWithoutBLOBsMethodGenerated(method,
-                        interfaze, introspectedTable)) {
+        if (context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(
+                method, interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);
             interfaze.addMethod(method);
         }

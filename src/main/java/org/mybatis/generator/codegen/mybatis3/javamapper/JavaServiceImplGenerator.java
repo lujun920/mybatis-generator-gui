@@ -19,12 +19,12 @@ import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.CountByExampleMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByExampleMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.ExtendsBaseServiceGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeySelectiveMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.GetRecordServiceMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.SelectByExampleServiceMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.ExtendsBaseServiceImplGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.GetRecordServiceImplMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.RemoveRecordServiceImplMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.SaveRecordServiceImplMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.SelectByExampleServiceImplMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.UpdateRecordServiceImplMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 
@@ -37,16 +37,16 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
  * @author ${baizhang}
  * @version $Id: JavaServiceGenerator.java, v 0.1 2018-09-16 下午9:51 Exp $
  */
-public class JavaServiceGenerator extends AbstractJavaClientGenerator {
+public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
 
     /**
      *
      */
-    public JavaServiceGenerator() {
+    public JavaServiceImplGenerator() {
         super(true);
     }
 
-    public JavaServiceGenerator(boolean requiresMatchedServiceGenerator) {
+    public JavaServiceImplGenerator(boolean requiresMatchedServiceGenerator) {
         super(requiresMatchedServiceGenerator);
     }
 
@@ -56,9 +56,14 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
                 introspectedTable.getFullyQualifiedTable().toString()));
         CommentGenerator commentGenerator = context.getCommentGenerator();
 
-        FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaServiceType());
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaServiceImplType());
         Interface interfaze = new Interface(type);
+        interfaze.setService(true);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
+
+        FullyQualifiedJavaType implementationType = new FullyQualifiedJavaType(
+                introspectedTable.getDAOImplementationType());
+
         /**
          * 版权信息
          */
@@ -68,20 +73,9 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
                 + " */");
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //StringBuilder sb = new StringBuilder();
-        //sb.append("/**\n");
-        //sb.append(" * 继承于BaseService，默认有五个方法实现\n");
-        //sb.append(" * listRecord、getRecord、saveRecord、removeRecord、updateRecord\n");
-        //sb.append(" * 该类默认接口方法可以删除\n");
-        //sb.append(" *\n");
-        //sb.append(" * @author MBG工具生成\n");
-        //sb.append(" * @version $Id: ").append(type.getShortName())
-        //        .append(".java, v 0.1 ")
-        //        .append(format.format(new Date()))
-        //        .append(" Exp $\n");
-        //sb.append(" */");
-        //interfaze.addJavaDocLine(sb.toString());
+
         commentGenerator.addJavaFileComment(interfaze);
+
 
         String rootInterface = introspectedTable
                 .getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
@@ -97,11 +91,11 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
             interfaze.addImportedType(fqjt);
         }
 
-        // 继承于BaseService
+        // 继承于BaseServiceImpl
         if (context.getJavaClientGeneratorConfiguration().getNonNeedMethod()) {
             StringBuilder sb = new StringBuilder();
             sb.append("/**\n");
-            sb.append(" * 继承于BaseService，默认有五个方法实现\n");
+            sb.append(" * 继承于BaseServiceImpl，默认有五个方法实现\n");
             sb.append(" * listRecord、getRecord、saveRecord、removeRecord、updateRecord\n");
             sb.append(" *\n");
             sb.append(" * @author MBG工具生成\n");
@@ -126,11 +120,11 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
             sb.append(" */");
             interfaze.addJavaDocLine(sb.toString());
 
-            addSelectByExampleWithoutBLOBsMethod(interfaze);
-            addSelectByPrimaryKeyMethod(interfaze);
-            addInsertMethod(interfaze);
-            addDeleteByExampleMethod(interfaze);
-            addUpdateByPrimaryKeySelectiveMethod(interfaze);
+            addSelectByExampleServiceImplMethodGenerator(interfaze);
+            addGetRecordServiceImplMethodGenerator(interfaze);
+            addSaveRecordServiceImplMethodGenerator(interfaze);
+            addRemoveRecordServiceImplMethodGenerator(interfaze);
+            addUpdateRecordServiceImplMethodGenerator(interfaze);
         }
 
 
@@ -144,6 +138,7 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
         List<CompilationUnit> extraCompilationUnits = getExtraCompilationUnits();
         if (extraCompilationUnits != null) {
             answer.addAll(extraCompilationUnits);
+
         }
 
         return answer;
@@ -156,44 +151,44 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
         }
     }
 
-    protected void addDeleteByExampleMethod(Interface interfaze) {
+    protected void addRemoveRecordServiceImplMethodGenerator(Interface interfaze) {
         if (introspectedTable.getRules().generateDeleteByExample()) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new DeleteByExampleMethodGenerator();
+            AbstractJavaMapperMethodGenerator methodGenerator = new RemoveRecordServiceImplMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
 
-    protected void addInsertMethod(Interface interfaze) {
+    protected void addSaveRecordServiceImplMethodGenerator(Interface interfaze) {
         if (introspectedTable.getRules().generateInsert()) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new InsertMethodGenerator(false);
+            AbstractJavaMapperMethodGenerator methodGenerator = new SaveRecordServiceImplMethodGenerator(false);
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
 
-    protected void addSelectByExampleWithoutBLOBsMethod(Interface interfaze) {
+    protected void addSelectByExampleServiceImplMethodGenerator(Interface interfaze) {
         if (introspectedTable.getRules().generateSelectByExampleWithoutBLOBs()) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new SelectByExampleServiceMethodGenerator();
+            AbstractJavaMapperMethodGenerator methodGenerator = new SelectByExampleServiceImplMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
 
-    protected void addSelectByPrimaryKeyMethod(Interface interfaze) {
+    protected void addGetRecordServiceImplMethodGenerator(Interface interfaze) {
         if (introspectedTable.getRules().generateSelectByPrimaryKey()) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new GetRecordServiceMethodGenerator(false);
+            AbstractJavaMapperMethodGenerator methodGenerator = new GetRecordServiceImplMethodGenerator(false);
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
 
-    protected void addUpdateByPrimaryKeySelectiveMethod(Interface interfaze) {
+    protected void addUpdateRecordServiceImplMethodGenerator(Interface interfaze) {
         if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new UpdateByPrimaryKeySelectiveMethodGenerator();
+            AbstractJavaMapperMethodGenerator methodGenerator = new UpdateRecordServiceImplMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
 
     protected void addExtendsBaseServiceGenerator(Interface interfaze) {
         if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new ExtendsBaseServiceGenerator();
+            AbstractJavaMapperMethodGenerator methodGenerator = new ExtendsBaseServiceImplGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }

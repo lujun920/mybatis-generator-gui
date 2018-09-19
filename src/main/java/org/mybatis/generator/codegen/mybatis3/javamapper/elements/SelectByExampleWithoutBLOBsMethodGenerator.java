@@ -46,9 +46,7 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
         importedTypes.add(type);
         importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
 
-        // 添加@Mapper包导入
-        importedTypes.add(new FullyQualifiedJavaType(
-                "org.apache.ibatis.annotations.Mapper")); //$NON-NLS-1$
+
 
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -67,6 +65,11 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
         }
 
         importedTypes.add(listType);
+        /**
+         * 非继承方式也需要导入@Mapper
+         */
+        // 添加@Mapper包导入
+        importedTypes.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
         returnType.addTypeArgument(listType);
         method.setReturnType(returnType);
 

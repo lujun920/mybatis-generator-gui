@@ -32,10 +32,10 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
  * @author Jeff Butler
  * 
  */
-public class SelectByExampleServiceMethodGenerator extends
+public class SelectByExampleServiceImplMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
-    public SelectByExampleServiceMethodGenerator() {
+    public SelectByExampleServiceImplMethodGenerator() {
         super();
     }
 
@@ -67,22 +67,12 @@ public class SelectByExampleServiceMethodGenerator extends
         returnType.addTypeArgument(listType);
         method.setReturnType(returnType);
         interfaze.addSuperImpl(new FullyQualifiedJavaType("I" + type.getShortName() + "Service"));
-        /**
-         *
-         * @param model
-         * @return
-         */
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * listRecord 查询列表");
-        method.addJavaDocLine(" *");
-        method.addJavaDocLine(" * @param model              实体model");
-        method.addJavaDocLine(" * @return "+returnType.getShortName()+"     返回结果");
-        method.addJavaDocLine(" */");
 
-
+        method.addAnnotation("@Override");
         method.setName("listRecord");
         method.addParameter(new Parameter(type, "model")); //$NON-NLS-1$
-
+        method.addBodyLine("model.setDeleted(LogicDeleteEnum.FALSE.getDelete());");
+        method.addBodyLine("return dao.listRecord(model);");
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);
 

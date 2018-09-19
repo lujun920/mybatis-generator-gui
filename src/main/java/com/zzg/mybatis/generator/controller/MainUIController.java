@@ -1,5 +1,13 @@
 package com.zzg.mybatis.generator.controller;
 
+import java.io.File;
+import java.net.URL;
+import java.sql.SQLRecoverableException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
 import com.zzg.mybatis.generator.bridge.MybatisGeneratorBridge;
 import com.zzg.mybatis.generator.model.DatabaseConfig;
 import com.zzg.mybatis.generator.model.GeneratorConfig;
@@ -12,7 +20,18 @@ import com.zzg.mybatis.generator.view.UIProgressCallback;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,14 +45,6 @@ import org.mybatis.generator.config.ColumnOverride;
 import org.mybatis.generator.config.IgnoredColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.net.URL;
-import java.sql.SQLRecoverableException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class MainUIController extends BaseFXController {
 
@@ -50,6 +61,10 @@ public class MainUIController extends BaseFXController {
     private TextField mapperTargetPackage;
     @FXML
     private TextField daoTargetPackage;
+
+    @FXML
+    private TextField serviceTargetPackage;
+
     @FXML
     private TextField tableNameField;
     @FXML
@@ -72,6 +87,10 @@ public class MainUIController extends BaseFXController {
     private CheckBox commentCheckBox;
     @FXML
     private CheckBox needToStringHashcodeEquals;
+
+    @FXML
+    private CheckBox nonNeedInterfaceImplMethod;
+
     @FXML
     private CheckBox annotationCheckBox;
     @FXML
@@ -258,7 +277,7 @@ public class MainUIController extends BaseFXController {
 		if (StringUtils.isEmpty(domainObjectNameField.getText()))  {
 			return "类名不能为空";
 		}
-		if (StringUtils.isAnyEmpty(modelTargetPackage.getText(), mapperTargetPackage.getText(), daoTargetPackage.getText())) {
+		if (StringUtils.isAnyEmpty(modelTargetPackage.getText(), mapperTargetPackage.getText(), daoTargetPackage.getText(), serviceTargetPackage.getText())) {
 			return "包名不能为空";
 		}
 
@@ -295,6 +314,7 @@ public class MainUIController extends BaseFXController {
         generatorConfig.setGenerateKeys(generateKeysField.getText());
         generatorConfig.setModelPackageTargetFolder(modelTargetProject.getText());
         generatorConfig.setDaoPackage(daoTargetPackage.getText());
+        generatorConfig.setServicePackage(serviceTargetPackage.getText());
         generatorConfig.setDaoTargetFolder(daoTargetProject.getText());
         generatorConfig.setMapperName(mapperName.getText());
         generatorConfig.setMappingXMLPackage(mapperTargetPackage.getText());
@@ -304,6 +324,7 @@ public class MainUIController extends BaseFXController {
         generatorConfig.setOffsetLimit(offsetLimitCheckBox.isSelected());
         generatorConfig.setComment(commentCheckBox.isSelected());
         generatorConfig.setNeedToStringHashcodeEquals(needToStringHashcodeEquals.isSelected());
+        generatorConfig.setNonNeedInterfaceImplMethod(nonNeedInterfaceImplMethod.isSelected());
         generatorConfig.setAnnotation(annotationCheckBox.isSelected());
         generatorConfig.setUseActualColumnNames(useActualColumnNamesCheckbox.isSelected());
         generatorConfig.setEncoding(encodingChoice.getValue());
@@ -316,6 +337,7 @@ public class MainUIController extends BaseFXController {
         generateKeysField.setText(generatorConfig.getGenerateKeys());
         modelTargetProject.setText(generatorConfig.getModelPackageTargetFolder());
         daoTargetPackage.setText(generatorConfig.getDaoPackage());
+        serviceTargetPackage.setText(generatorConfig.getServicePackage());
         daoTargetProject.setText(generatorConfig.getDaoTargetFolder());
         mapperTargetPackage.setText(generatorConfig.getMappingXMLPackage());
         mappingTargetProject.setText(generatorConfig.getMappingXMLTargetFolder());

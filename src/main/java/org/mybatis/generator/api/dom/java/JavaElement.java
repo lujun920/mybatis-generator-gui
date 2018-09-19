@@ -43,6 +43,21 @@ public abstract class JavaElement {
     private List<String> annotations;
 
     /**
+     * 是否为dao接口
+     */
+    private boolean isDao;
+
+    /**
+     * 是否为Service接口
+     */
+    private boolean isService;
+
+    /**
+     * 是否为Service 接口实现
+     */
+    private boolean isServiceImpl;
+
+    /**
      * Instantiates a new java element.
      */
     public JavaElement() {
@@ -64,6 +79,9 @@ public abstract class JavaElement {
         this.isStatic = original.isStatic;
         this.javaDocLines.addAll(original.javaDocLines);
         this.visibility = original.visibility;
+        this.isDao= original.isDao;
+        this.isService= original.isService;
+        this.isServiceImpl= original.isServiceImpl;
     }
 
     /**
@@ -198,5 +216,41 @@ public abstract class JavaElement {
      */
     public void setStatic(boolean isStatic) {
         this.isStatic = isStatic;
+    }
+
+    /**
+     * Getter method for property <tt>isDao</tt>.
+     *
+     * @return property value of isDao
+     */
+    public boolean isDao() {
+        return isDao;
+    }
+
+    /**
+     * Setter method for property <tt>isDao</tt>.
+     *
+     * @param isDao  value to be assigned to property isDao
+     */
+    public void setDao(final boolean dao) {
+        isDao = dao;
+    }
+
+    /**
+     * Getter method for property <tt>isService</tt>.
+     *
+     * @return property value of isService
+     */
+    public boolean isService() {
+        return isService;
+    }
+
+    /**
+     * Setter method for property <tt>isService</tt>.
+     *
+     * @param isService  value to be assigned to property isService
+     */
+    public void setService(final boolean service) {
+        isService = service;
     }
 }

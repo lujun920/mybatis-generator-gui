@@ -47,6 +47,11 @@ public class Interface extends JavaElement implements CompilationUnit {
     /** The super interface types. */
     private Set<FullyQualifiedJavaType> superInterfaceTypes;
 
+    /**
+     * 接口实现set
+     */
+    private Set<FullyQualifiedJavaType> superImplTypes;
+
     /** The methods. */
     private List<Method> methods;
 
@@ -63,6 +68,7 @@ public class Interface extends JavaElement implements CompilationUnit {
         super();
         this.type = type;
         superInterfaceTypes = new LinkedHashSet<FullyQualifiedJavaType>();
+        superImplTypes= new LinkedHashSet<>();
         methods = new ArrayList<Method>();
         importedTypes = new TreeSet<FullyQualifiedJavaType>();
         fileCommentLines = new ArrayList<String>();
@@ -82,6 +88,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#getImportedTypes()
      */
+    @Override
     public Set<FullyQualifiedJavaType> getImportedTypes() {
         return Collections.unmodifiableSet(importedTypes);
     }
@@ -89,6 +96,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#addImportedType(org.mybatis.generator.api.dom.java.FullyQualifiedJavaType)
      */
+    @Override
     public void addImportedType(FullyQualifiedJavaType importedType) {
         if (importedType.isExplicitlyImported()
                 && !importedType.getPackageName().equals(type.getPackageName())) {
@@ -99,6 +107,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#getFormattedContent()
      */
+    @Override
     public String getFormattedContent() {
         StringBuilder sb = new StringBuilder();
 
@@ -135,15 +144,20 @@ public class Interface extends JavaElement implements CompilationUnit {
         if (importStrings.size() > 0) {
             newLine(sb);
         }
-        //sb.append("import org.apache.ibatis.annotations.Mapper;");
-        //newLine(sb);
+
         sb.append("");
         newLine(sb);
         int indentLevel = 0;
 
         addFormattedJavadoc(sb, indentLevel);
         addFormattedAnnotations(sb, indentLevel);
-        sb.append("@Mapper");
+        if(isDao()){
+            sb.append("@Mapper");
+        }
+        if(isService()){
+            sb.append("@Service");
+        }
+
         newLine(sb);
 
         sb.append(getVisibility().getValue());
@@ -156,7 +170,7 @@ public class Interface extends JavaElement implements CompilationUnit {
             sb.append("final "); //$NON-NLS-1$
         }
 
-        sb.append("interface "); //$NON-NLS-1$
+        sb.append("class "); //$NON-NLS-1$
         sb.append(getType().getShortName());
 
         if (getSuperInterfaceTypes().size() > 0) {
@@ -174,6 +188,22 @@ public class Interface extends JavaElement implements CompilationUnit {
             }
         }
 
+        // 接口实现
+        if (getSuperImplTypes().size() > 0) {
+            sb.append(" implements "); //$NON-NLS-1$
+
+            boolean comma = false;
+            for (FullyQualifiedJavaType fqjt : getSuperImplTypes()) {
+                if (comma) {
+                    sb.append(", "); //$NON-NLS-1$
+                } else {
+                    comma = true;
+                }
+
+                sb.append(JavaDomUtils.calculateTypeName(this, fqjt));
+            }
+        }
+
         sb.append(" {"); //$NON-NLS-1$
         indentLevel++;
 
@@ -181,7 +211,12 @@ public class Interface extends JavaElement implements CompilationUnit {
         while (mtdIter.hasNext()) {
             newLine(sb);
             Method method = mtdIter.next();
-            sb.append(method.getFormattedContent(indentLevel, true, this));
+            if(isService()){
+                sb.append(method.getFormattedContent(indentLevel, false, this));
+            }else {
+                sb.append(method.getFormattedContent(indentLevel, true, this));
+            }
+
             if (mtdIter.hasNext()) {
                 newLine(sb);
             }
@@ -203,6 +238,10 @@ public class Interface extends JavaElement implements CompilationUnit {
      */
     public void addSuperInterface(FullyQualifiedJavaType superInterface) {
         superInterfaceTypes.add(superInterface);
+    }
+
+    public void addSuperImpl(FullyQualifiedJavaType superInterface) {
+        superImplTypes.add(superInterface);
     }
 
     /**
@@ -229,6 +268,7 @@ public class Interface extends JavaElement implements CompilationUnit {
      *
      * @return Returns the type.
      */
+    @Override
     public FullyQualifiedJavaType getType() {
         return type;
     }
@@ -236,6 +276,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#getSuperClass()
      */
+    @Override
     public FullyQualifiedJavaType getSuperClass() {
         // interfaces do not have superclasses
         return null;
@@ -244,13 +285,24 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#getSuperInterfaceTypes()
      */
+    @Override
     public Set<FullyQualifiedJavaType> getSuperInterfaceTypes() {
         return superInterfaceTypes;
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.dom.java.CompilationUnit#isJavaInterface()
+    /**
+     * Getter method for property <tt>superImplTypes</tt>.
+     *
+     * @return property value of superImplTypes
      */
+    public Set<FullyQualifiedJavaType> getSuperImplTypes() {
+        return superImplTypes;
+    }
+
+    /* (non-Javadoc)
+         * @see org.mybatis.generator.api.dom.java.CompilationUnit#isJavaInterface()
+         */
+    @Override
     public boolean isJavaInterface() {
         return true;
     }
@@ -258,6 +310,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#isJavaEnumeration()
      */
+    @Override
     public boolean isJavaEnumeration() {
         return false;
     }
@@ -265,6 +318,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#addFileCommentLine(java.lang.String)
      */
+    @Override
     public void addFileCommentLine(String commentLine) {
         fileCommentLines.add(commentLine);
     }
@@ -272,6 +326,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#getFileCommentLines()
      */
+    @Override
     public List<String> getFileCommentLines() {
         return fileCommentLines;
     }
@@ -279,6 +334,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#addImportedTypes(java.util.Set)
      */
+    @Override
     public void addImportedTypes(Set<FullyQualifiedJavaType> importedTypes) {
         this.importedTypes.addAll(importedTypes);
     }
@@ -286,6 +342,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#getStaticImports()
      */
+    @Override
     public Set<String> getStaticImports() {
         return staticImports;
     }
@@ -293,6 +350,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#addStaticImport(java.lang.String)
      */
+    @Override
     public void addStaticImport(String staticImport) {
         staticImports.add(staticImport);
     }
@@ -300,6 +358,7 @@ public class Interface extends JavaElement implements CompilationUnit {
     /* (non-Javadoc)
      * @see org.mybatis.generator.api.dom.java.CompilationUnit#addStaticImports(java.util.Set)
      */
+    @Override
     public void addStaticImports(Set<String> staticImports) {
         this.staticImports.addAll(staticImports);
     }

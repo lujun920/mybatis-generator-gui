@@ -15,13 +15,13 @@
  */
 package org.mybatis.generator.config;
 
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
 import java.util.List;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 /**
  * @author Jeff Butler
@@ -32,10 +32,54 @@ public class JavaClientGeneratorConfiguration extends TypedPropertyHolder {
     private String targetProject;
 
     /**
+     * service 接口包名
+     */
+    private String servicePackage;
+
+
+    private Boolean nonNeedMethod;
+
+    /**
      *  
      */
     public JavaClientGeneratorConfiguration() {
         super();
+    }
+
+    /**
+     * Getter method for property <tt>servicePackage</tt>.
+     *
+     * @return property value of servicePackage
+     */
+    public String getServicePackage() {
+        return servicePackage;
+    }
+
+    /**
+     * Setter method for property <tt>servicePackage</tt>.
+     *
+     * @param servicePackage  value to be assigned to property servicePackage
+     */
+    public void setServicePackage(String servicePackage) {
+        this.servicePackage = servicePackage;
+    }
+
+    /**
+     * Getter method for property <tt>nonNeedMethod</tt>.
+     *
+     * @return property value of nonNeedMethod
+     */
+    public Boolean getNonNeedMethod() {
+        return nonNeedMethod;
+    }
+
+    /**
+     * Setter method for property <tt>nonNeedMethod</tt>.
+     *
+     * @param nonNeedMethod  value to be assigned to property nonNeedMethod
+     */
+    public void setNonNeedMethod(final Boolean nonNeedMethod) {
+        this.nonNeedMethod = nonNeedMethod;
     }
 
     public String getTargetProject() {

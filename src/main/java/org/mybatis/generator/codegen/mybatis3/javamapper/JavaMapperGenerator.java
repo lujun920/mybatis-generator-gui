@@ -32,6 +32,7 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMa
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.CountByExampleMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByExampleMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.ExtendsBaseDaoGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertSelectiveMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampleWithBLOBsMethodGenerator;
@@ -74,6 +75,9 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
 
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
         Interface interfaze = new Interface(type);
+
+        // Interface DAO
+        interfaze.setDao(true);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
         /**
          * 版权信息
@@ -82,29 +86,8 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
                 + " * Dian.so Inc.\n"
                 + " * Copyright (c) 2016-" + Calendar.getInstance().get(Calendar.YEAR) + " All Rights Reserved.\n"
                 + " */");
-        /**
-         *
-         * TODO
-         * @author ${baizhang}
-         * @version $Id: ${NAME}.java, v 0.1 ${YEAR}-${MONTH}-${DAY} ${TIME} Exp $
-         */
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        StringBuilder sb = new StringBuilder();
-        sb.append("/**\n");
-        sb.append(" * 继承于BaseDAO，默认有五个方法实现\n");
-        sb.append(" * listRecord、getRecord、saveRecord、removeRecord、updateRecord\n");
-        sb.append(" * 该类默认接口方法可以删除\n");
-        sb.append(" *\n");
-        sb.append(" * @author MBG工具生成\n");
-        sb.append(" * @version $Id: ").append(type.getShortName())
-                .append(".java, v 0.1 ")
-                .append(format.format(new Date()))
-                .append(" Exp $\n");
-        sb.append(" */");
-        interfaze.addJavaDocLine(sb.toString());
-        commentGenerator.addJavaFileComment(interfaze);
-
-
 
         String rootInterface = introspectedTable
             .getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
@@ -126,13 +109,44 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
          * @author ${baizhang}
          * @version $Id: ${NAME}.java, v 0.1 ${YEAR}-${MONTH}-${DAY} ${TIME} Exp $
          */
+        // 继承于BaseDAO
+        if(context.getJavaClientGeneratorConfiguration().getNonNeedMethod()){
+            StringBuilder sb = new StringBuilder();
+            sb.append("/**\n");
+            sb.append(" * 继承于BaseDAO，默认有五个方法实现\n");
+            sb.append(" * listRecord、getRecord、saveRecord、removeRecord、updateRecord\n");
+            sb.append(" *\n");
+            sb.append(" * @author MBG工具生成\n");
+            sb.append(" * @version $Id: ").append(type.getShortName())
+                    .append(".java, v 0.1 ")
+                    .append(format.format(new Date()))
+                    .append(" Exp $\n");
+            sb.append(" */");
+            interfaze.addJavaDocLine(sb.toString());
+            addExtendsBaseDaoGenerator(interfaze);
+            // 不继承BaseDAO
+        }else{
+            StringBuilder sb = new StringBuilder();
+            sb.append("/**\n");
+            sb.append(" * 工具生成默认有五个方法实现\n");
+            sb.append(" * listRecord、getRecord、saveRecord、removeRecord、updateRecord\n");
+            sb.append(" *\n");
+            sb.append(" * @author MBG工具生成\n");
+            sb.append(" * @version $Id: ").append(type.getShortName())
+                    .append(".java, v 0.1 ")
+                    .append(format.format(new Date()))
+                    .append(" Exp $\n");
+            sb.append(" */");
+            interfaze.addJavaDocLine(sb.toString());
 
-        addSelectByExampleWithoutBLOBsMethod(interfaze);
-        addSelectByPrimaryKeyMethod(interfaze);
-        addInsertMethod(interfaze);
-        addDeleteByExampleMethod(interfaze);
-        addUpdateByPrimaryKeySelectiveMethod(interfaze);
+            addSelectByExampleWithoutBLOBsMethod(interfaze);
+            addSelectByPrimaryKeyMethod(interfaze);
+            addInsertMethod(interfaze);
+            addDeleteByExampleMethod(interfaze);
+            addUpdateByPrimaryKeySelectiveMethod(interfaze);
+        }
 
+        commentGenerator.addJavaFileComment(interfaze);
 
         //addSelectByExampleWithBLOBsMethod(interfaze);
         //addCountByExampleMethod(interfaze);
@@ -199,6 +213,14 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
+
+    protected void addExtendsBaseDaoGenerator(Interface interfaze) {
+        if (introspectedTable.getRules().generateSelectByExampleWithoutBLOBs()) {
+            AbstractJavaMapperMethodGenerator methodGenerator = new ExtendsBaseDaoGenerator();
+            initializeAndExecuteGenerator(methodGenerator, interfaze);
+        }
+    }
+
 
     protected void addSelectByExampleWithoutBLOBsMethod(Interface interfaze) {
         if (introspectedTable.getRules().generateSelectByExampleWithoutBLOBs()) {

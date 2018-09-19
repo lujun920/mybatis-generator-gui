@@ -30,6 +30,8 @@ import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.AnnotatedClientGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.JavaMapperGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.JavaServiceGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.JavaServiceImplGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.MixedClientGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
@@ -80,6 +82,10 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 
 
         // 新增service生成代码，加这里
+        calculateClientServiceGenerators(warnings, progressCallback);
+
+        // 新增serviceImpl
+        calculateClientServiceImplGenerators(warnings, progressCallback);
     }
 
     /**
@@ -131,6 +137,71 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
         clientGenerators.add(javaGenerator);
         
         return javaGenerator;
+    }
+
+    /**
+     * service 接口方法生成
+     *
+     * @param warnings
+     * @param progressCallback
+     * @return
+     */
+    protected AbstractJavaClientGenerator calculateClientServiceGenerators(List<String> warnings,
+                                                                    ProgressCallback progressCallback) {
+        if (!rules.generateJavaClient()) {
+            return null;
+        }
+
+        AbstractJavaClientGenerator javaGenerator = createJavaServiceClientGenerator();
+        if (javaGenerator == null) {
+            return null;
+        }
+
+        initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
+        clientGenerators.add(javaGenerator);
+
+        return javaGenerator;
+    }
+
+    protected AbstractJavaClientGenerator calculateClientServiceImplGenerators(List<String> warnings,
+                                                                           ProgressCallback progressCallback) {
+        if (!rules.generateJavaClient()) {
+            return null;
+        }
+        AbstractJavaClientGenerator javaGenerator = createJavaServiceImplClientGenerator();
+        if (javaGenerator == null) {
+            return null;
+        }
+        initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
+        clientGenerators.add(javaGenerator);
+
+        return javaGenerator;
+    }
+
+    /**
+     * 使用 JavaServiceGenerator
+     *
+     * @return
+     */
+    protected AbstractJavaClientGenerator createJavaServiceClientGenerator() {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return null;
+        }
+
+        return new JavaServiceGenerator();
+    }
+
+    /**
+     * 使用 JavaServiceImplGenerator
+     *
+     * @return
+     */
+    protected AbstractJavaClientGenerator createJavaServiceImplClientGenerator() {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return null;
+        }
+
+        return new JavaServiceImplGenerator();
     }
     
     /**

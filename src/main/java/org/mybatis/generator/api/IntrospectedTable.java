@@ -100,7 +100,10 @@ public abstract class IntrospectedTable {
         
         /** also used as XML Mapper namespace if a Java mapper is generated. */
         ATTR_MYBATIS3_JAVA_MAPPER_TYPE,
-        
+
+        ATTR_MYBATIS3_JAVA_SERVICE_TYPE,
+        ATTR_MYBATIS3_JAVA_SERVICE_IMPL_TYPE,
+
         /** used as XML Mapper namespace if no client is generated. */
         ATTR_MYBATIS3_FALLBACK_SQL_MAP_NAMESPACE,
         
@@ -760,6 +763,12 @@ public abstract class IntrospectedTable {
         calculateModelAttributes();
         calculateXmlAttributes();
 
+        // service 接口类 baizhang
+        calculateServiceAttributes();
+
+        // 接口实现
+        calculateServiceImplAttributes();
+
         if (tableConfiguration.getModelType() == ModelType.HIERARCHICAL) {
             rules = new HierarchicalModelRules(this);
         } else if (tableConfiguration.getModelType() == ModelType.FLAT) {
@@ -769,6 +778,53 @@ public abstract class IntrospectedTable {
         }
 
         context.getPlugins().initialized(this);
+    }
+
+    /**
+     * 生成service接口类
+     */
+    protected void calculateServiceAttributes() {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(context.getJavaClientGeneratorConfiguration().getServicePackage());
+        sb.append('.');
+        if (stringHasValue(tableConfiguration.getMapperName())) {
+            sb.append(tableConfiguration.getMapperName());
+        } else {
+            sb.append("I");
+            sb.append(fullyQualifiedTable.getDomainObjectName());
+            sb.append("Service");
+        }
+        setMyBatis3JavaServiceType(sb.toString());
+    }
+
+    /**
+     * 生成service接口类实现类
+     */
+
+    /**
+     * 生成service接口类
+     */
+    protected void calculateServiceImplAttributes() {
+        if (context.getJavaClientGeneratorConfiguration() == null) {
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(context.getJavaClientGeneratorConfiguration().getServicePackage());
+        sb.append('.');
+        if (stringHasValue(tableConfiguration.getMapperName())) {
+            sb.append(tableConfiguration.getMapperName());
+        } else {
+            sb.append(fullyQualifiedTable.getDomainObjectName());
+            sb.append("ServiceImpl");
+        }
+        setMyBatis3JavaServiceImplType(sb.toString());
     }
 
     /**
@@ -1264,8 +1320,7 @@ public abstract class IntrospectedTable {
      * @return the string
      */
     protected String calculateJavaClientImplementationPackage() {
-        JavaClientGeneratorConfiguration config = context
-                .getJavaClientGeneratorConfiguration();
+        JavaClientGeneratorConfiguration config = context.getJavaClientGeneratorConfiguration();
         if (config == null) {
             return null;
         }
@@ -1312,6 +1367,8 @@ public abstract class IntrospectedTable {
 
         return sb.toString();
     }
+
+
 
     /**
      * Calculate java client attributes.
@@ -1467,6 +1524,14 @@ public abstract class IntrospectedTable {
             sb.append("DAO.xml"); //$NON-NLS-1$
         }
         return sb.toString();
+    }
+
+    /**
+     * 生成java Service 接口文件名
+     * @return 文件名
+     */
+    protected String calculateMyBatis3ServiceFileName() {
+        return fullyQualifiedTable.getDomainObjectName()+"Service.java";
     }
 
     /**
@@ -1806,6 +1871,35 @@ public abstract class IntrospectedTable {
                 InternalAttribute.ATTR_MYBATIS3_JAVA_MAPPER_TYPE,
                 mybatis3JavaMapperType);
     }
+
+    /**
+     * FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
+     * 使用到
+     * @return
+     */
+    public String getMyBatis3JavaServiceType() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_MYBATIS3_JAVA_SERVICE_TYPE);
+    }
+
+    public void setMyBatis3JavaServiceType(String mybatis3JavaServiceType) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_MYBATIS3_JAVA_SERVICE_TYPE,
+                mybatis3JavaServiceType);
+    }
+
+
+    public String getMyBatis3JavaServiceImplType() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_MYBATIS3_JAVA_SERVICE_IMPL_TYPE);
+    }
+
+    public void setMyBatis3JavaServiceImplType(String mybatis3JavaServiceImplType) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_MYBATIS3_JAVA_SERVICE_IMPL_TYPE,
+                mybatis3JavaServiceImplType);
+    }
+
 
     /**
      * Gets the my batis3 sql provider type.

@@ -367,6 +367,17 @@ public interface Plugin {
     boolean clientSelectByPrimaryKeyMethodGenerated(Method method,
                                                     TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
 
+   /**
+    * claxx
+    *
+    * @param method
+    * @param claxx
+    * @param introspectedTable
+    * @return
+    */
+   //boolean clientSelectByPrimaryKeyMethodGenerated(Method method,
+   //                                                Claxx claxx, IntrospectedTable introspectedTable);
+
     /**
      * This method is called when the updateByExampleSelective method has been
      * generated in the client implementation class.
