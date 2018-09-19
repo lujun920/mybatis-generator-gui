@@ -6,6 +6,7 @@ package org.mybatis.generator.codegen.mybatis3.javamapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -91,6 +92,7 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
             interfaze.addImportedType(fqjt);
         }
 
+
         // 继承于BaseServiceImpl
         if (context.getJavaClientGeneratorConfiguration().getNonNeedMethod()) {
             StringBuilder sb = new StringBuilder();
@@ -105,6 +107,10 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
                     .append(" Exp $\n");
             sb.append(" */");
             interfaze.addJavaDocLine(sb.toString());
+
+            interfaze.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.template.service.BaseServiceImpl"));
+            //interfaze.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.template.model.BaseModel"));
+
             addExtendsBaseServiceGenerator(interfaze);
         }else{
             StringBuilder sb = new StringBuilder();
@@ -119,6 +125,10 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
                     .append(" Exp $\n");
             sb.append(" */");
             interfaze.addJavaDocLine(sb.toString());
+
+            interfaze.addImportedType(new FullyQualifiedJavaType(type.getFullyQualifiedName()+"AAAAAAA"));
+
+            interfaze.setAutowiredLines(Arrays.asList("private "+ type.getShortName()+"DAO dao;"));
 
             addSelectByExampleServiceImplMethodGenerator(interfaze);
             addGetRecordServiceImplMethodGenerator(interfaze);

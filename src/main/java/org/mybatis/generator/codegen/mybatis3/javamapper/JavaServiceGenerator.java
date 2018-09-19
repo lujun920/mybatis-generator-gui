@@ -111,6 +111,7 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
                     .append(" Exp $\n");
             sb.append(" */");
             interfaze.addJavaDocLine(sb.toString());
+            interfaze.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.template.service.IBaseService"));
             addExtendsBaseServiceGenerator(interfaze);
         }else{
             StringBuilder sb = new StringBuilder();

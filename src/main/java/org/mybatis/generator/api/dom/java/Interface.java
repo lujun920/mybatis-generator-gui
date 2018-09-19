@@ -57,6 +57,7 @@ public class Interface extends JavaElement implements CompilationUnit {
 
     /** The file comment lines. */
     private List<String> fileCommentLines;
+    private List<String> autowiredLines;
 
     /**
      * Instantiates a new interface.
@@ -72,6 +73,7 @@ public class Interface extends JavaElement implements CompilationUnit {
         methods = new ArrayList<Method>();
         importedTypes = new TreeSet<FullyQualifiedJavaType>();
         fileCommentLines = new ArrayList<String>();
+        autowiredLines = new ArrayList<String>();
         staticImports = new TreeSet<String>();
     }
 
@@ -225,6 +227,13 @@ public class Interface extends JavaElement implements CompilationUnit {
         indentLevel--;
         newLine(sb);
         javaIndent(sb, indentLevel);
+        for (String line: autowiredLines) {
+            newLine(sb.append(""));
+            sb.append("    @Autowired");
+            newLine(sb);
+            sb.append("    ").append(line);
+            newLine(sb);
+        }
         sb.append('}');
 
         return sb.toString();
@@ -299,9 +308,27 @@ public class Interface extends JavaElement implements CompilationUnit {
         return superImplTypes;
     }
 
+    /**
+     * Getter method for property <tt>autowiredLines</tt>.
+     *
+     * @return property value of autowiredLines
+     */
+    public List<String> getAutowiredLines() {
+        return autowiredLines;
+    }
+
+    /**
+     * Setter method for property <tt>autowiredLines</tt>.
+     *
+     * @param autowiredLines  value to be assigned to property autowiredLines
+     */
+    public void setAutowiredLines(final List<String> autowiredLines) {
+        this.autowiredLines = autowiredLines;
+    }
+
     /* (non-Javadoc)
-         * @see org.mybatis.generator.api.dom.java.CompilationUnit#isJavaInterface()
-         */
+             * @see org.mybatis.generator.api.dom.java.CompilationUnit#isJavaInterface()
+             */
     @Override
     public boolean isJavaInterface() {
         return true;
