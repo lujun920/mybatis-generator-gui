@@ -78,6 +78,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
 
         // Interface DAO
         interfaze.setDao(true);
+        interfaze.setInterface(true);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
         /**
          * 版权信息
@@ -123,6 +124,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
                     .append(" Exp $\n");
             sb.append(" */");
             interfaze.addJavaDocLine(sb.toString());
+            interfaze.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.template.dao.BaseDAO"));
             addExtendsBaseDaoGenerator(interfaze);
             // 不继承BaseDAO
         }else{

@@ -58,6 +58,7 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                 introspectedTable.getBaseRecordType());
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+        topLevelClass.setClass(true);
         commentGenerator.addJavaFileComment(topLevelClass);
         // 版权信息
         commentGenerator.addCopyRightComment(topLevelClass);
@@ -80,6 +81,7 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         }
         // lombok Data
         topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.Data"));
+        topLevelClass.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.template.model.BaseModel"));
 
         topLevelClass.addSuperInterface(null);
 

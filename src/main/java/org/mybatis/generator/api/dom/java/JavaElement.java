@@ -42,6 +42,10 @@ public abstract class JavaElement {
     /** The annotations. */
     private List<String> annotations;
 
+    private boolean isClass;
+
+    private boolean isInterface;
+
     /**
      * 是否为dao接口
      */
@@ -82,6 +86,8 @@ public abstract class JavaElement {
         this.isDao= original.isDao;
         this.isService= original.isService;
         this.isServiceImpl= original.isServiceImpl;
+        this.isClass= original.isClass;
+        this.isInterface= original.isInterface;
     }
 
     /**
@@ -252,5 +258,41 @@ public abstract class JavaElement {
      */
     public void setService(final boolean service) {
         isService = service;
+    }
+
+    /**
+     * Getter method for property <tt>isClass</tt>.
+     *
+     * @return property value of isClass
+     */
+    public boolean isClass() {
+        return isClass;
+    }
+
+    /**
+     * Setter method for property <tt>isClass</tt>.
+     *
+     * @param isClass  value to be assigned to property isClass
+     */
+    public void setClass(final boolean aClass) {
+        isClass = aClass;
+    }
+
+    /**
+     * Getter method for property <tt>isInterface</tt>.
+     *
+     * @return property value of isInterface
+     */
+    public boolean isInterface() {
+        return isInterface;
+    }
+
+    /**
+     * Setter method for property <tt>isInterface</tt>.
+     *
+     * @param isInterface  value to be assigned to property isInterface
+     */
+    public void setInterface(final boolean anInterface) {
+        isInterface = anInterface;
     }
 }

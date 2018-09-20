@@ -61,7 +61,7 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
         Interface interfaze = new Interface(type);
         interfaze.setService(true);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
-
+        interfaze.setInterface(true);
         FullyQualifiedJavaType implementationType = new FullyQualifiedJavaType(
                 introspectedTable.getDAOImplementationType());
 

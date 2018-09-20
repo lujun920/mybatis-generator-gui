@@ -59,6 +59,7 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaServiceType());
         Interface interfaze = new Interface(type);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
+        interfaze.setInterface(true);
         /**
          * 版权信息
          */

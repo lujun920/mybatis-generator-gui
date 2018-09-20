@@ -172,7 +172,12 @@ public class Interface extends JavaElement implements CompilationUnit {
             sb.append("final "); //$NON-NLS-1$
         }
 
-        sb.append("class "); //$NON-NLS-1$
+        if(isClass()){
+            sb.append("class ");
+        }
+        if(isInterface()){
+            sb.append("interface ");
+        }
         sb.append(getType().getShortName());
 
         if (getSuperInterfaceTypes().size() > 0) {
