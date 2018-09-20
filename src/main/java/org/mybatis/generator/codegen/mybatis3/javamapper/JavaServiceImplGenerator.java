@@ -61,7 +61,7 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
         Interface interfaze = new Interface(type);
         interfaze.setService(true);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
-        interfaze.setInterface(true);
+        interfaze.setClass(true);
         FullyQualifiedJavaType implementationType = new FullyQualifiedJavaType(
                 introspectedTable.getDAOImplementationType());
 
@@ -125,8 +125,6 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
                     .append(" Exp $\n");
             sb.append(" */");
             interfaze.addJavaDocLine(sb.toString());
-
-            interfaze.addImportedType(new FullyQualifiedJavaType(type.getFullyQualifiedName()+"AAAAAAA"));
 
             interfaze.setAutowiredLines(Arrays.asList("private "+ type.getShortName()+"DAO dao;"));
 

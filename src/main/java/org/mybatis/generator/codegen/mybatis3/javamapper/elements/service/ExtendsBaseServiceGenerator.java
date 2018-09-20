@@ -45,7 +45,7 @@ public class ExtendsBaseServiceGenerator extends
 
         FullyQualifiedJavaType returnType = introspectedTable.getRules().calculateAllFieldsClass();
 
-        interfaze.addSuperInterface(new FullyQualifiedJavaType("BaseService<" + returnType.getShortName() + ">"));
+        interfaze.addSuperInterface(new FullyQualifiedJavaType("IBaseService<" + returnType.getShortName() + ">"));
         // 添加@Service包导入
         importedTypes.add(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
         // model 导入包
