@@ -73,11 +73,6 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
         returnType.addTypeArgument(listType);
         method.setReturnType(returnType);
 
-        /**
-         *
-         * @param model
-         * @return
-         */
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * listRecord 查询列表");
         method.addJavaDocLine(" *");

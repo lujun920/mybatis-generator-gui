@@ -104,12 +104,6 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             interfaze.addImportedType(fqjt);
         }
 
-        /**
-         *
-         * TODO
-         * @author ${baizhang}
-         * @version $Id: ${NAME}.java, v 0.1 ${YEAR}-${MONTH}-${DAY} ${TIME} Exp $
-         */
         // 继承于BaseDAO
         if(context.getJavaClientGeneratorConfiguration().getNonNeedMethod()){
             StringBuilder sb = new StringBuilder();

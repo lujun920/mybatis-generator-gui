@@ -58,18 +58,21 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     protected XmlElement getSqlMapElement() {
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         progressCallback.startTask(getString(
-                "Progress.12", table.toString())); //$NON-NLS-1$
-        XmlElement answer = new XmlElement("mapper"); //$NON-NLS-1$
+                "Progress.12", table.toString()));
+        // xml
+        XmlElement answer = new XmlElement("mapper");
+        // namespace
         String namespace = introspectedTable.getMyBatis3SqlMapNamespace();
-        answer.addAttribute(new Attribute("namespace", //$NON-NLS-1$
+        answer.addAttribute(new Attribute("namespace",
                 namespace));
 
         context.getCommentGenerator().addRootComment(answer);
-
+        // BaseResultMap节点
         addResultMapWithoutBLOBsElement(answer);
         addResultMapWithBLOBsElement(answer);
-
+        // Example_Where_Clause节点
         addExampleWhereClauseElement(answer);
+        // Base_Column_List
         addBaseColumnListElement(answer);
 
         // listRecord
