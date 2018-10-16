@@ -37,7 +37,7 @@ buildNumber.properties
 /out/
 /target/
 /code/
-*.db
+*/sqlite3.db
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
