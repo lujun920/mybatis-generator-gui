@@ -15,15 +15,15 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements.service;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
@@ -66,7 +66,7 @@ public class SelectByExampleServiceImplMethodGenerator extends
         importedTypes.add(listType);
         returnType.addTypeArgument(listType);
         method.setReturnType(returnType);
-        interfaze.addSuperImpl(new FullyQualifiedJavaType("I" + type.getShortName() + "Service"));
+        interfaze.addSuperImpl(new FullyQualifiedJavaType(type.getShortName() + "Service"));
 
         method.addAnnotation("@Override");
         method.setName("listRecord");

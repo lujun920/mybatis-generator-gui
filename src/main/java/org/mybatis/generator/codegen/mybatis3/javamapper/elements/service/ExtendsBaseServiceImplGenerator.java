@@ -15,13 +15,13 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements.service;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class ExtendsBaseServiceImplGenerator extends
         FullyQualifiedJavaType returnType = introspectedTable.getRules().calculateAllFieldsClass();
 
         interfaze.addSuperInterface(new FullyQualifiedJavaType("BaseServiceImpl<" + returnType.getShortName() + ">"));
-        interfaze.addSuperImpl(new FullyQualifiedJavaType( "I"+returnType.getShortName()+"Service"));
+        interfaze.addSuperImpl(new FullyQualifiedJavaType( returnType.getShortName()+"Service"));
         //interfaze.add
         // 添加@Service包导入
         importedTypes.add(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));

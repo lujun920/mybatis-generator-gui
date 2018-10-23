@@ -795,7 +795,6 @@ public abstract class IntrospectedTable {
         if (stringHasValue(tableConfiguration.getMapperName())) {
             sb.append(tableConfiguration.getMapperName());
         } else {
-            sb.append("I");
             sb.append(fullyQualifiedTable.getDomainObjectName());
             sb.append("Service");
         }
