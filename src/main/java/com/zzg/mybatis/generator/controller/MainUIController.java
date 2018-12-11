@@ -1,13 +1,5 @@
 package com.zzg.mybatis.generator.controller;
 
-import java.io.File;
-import java.net.URL;
-import java.sql.SQLRecoverableException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import com.zzg.mybatis.generator.bridge.MybatisGeneratorBridge;
 import com.zzg.mybatis.generator.model.DatabaseConfig;
 import com.zzg.mybatis.generator.model.GeneratorConfig;
@@ -45,6 +37,14 @@ import org.mybatis.generator.config.ColumnOverride;
 import org.mybatis.generator.config.IgnoredColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.net.URL;
+import java.sql.SQLRecoverableException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class MainUIController extends BaseFXController {
 
@@ -93,6 +93,10 @@ public class MainUIController extends BaseFXController {
 
     @FXML
     private CheckBox annotationCheckBox;
+
+    @FXML
+    private CheckBox needBatchSave;
+
     @FXML
     private CheckBox useActualColumnNamesCheckbox;
     @FXML
@@ -326,6 +330,7 @@ public class MainUIController extends BaseFXController {
         generatorConfig.setNeedToStringHashcodeEquals(needToStringHashcodeEquals.isSelected());
         generatorConfig.setNonNeedInterfaceImplMethod(nonNeedInterfaceImplMethod.isSelected());
         generatorConfig.setAnnotation(annotationCheckBox.isSelected());
+        generatorConfig.setNeedBatchSave(needBatchSave.isSelected());
         generatorConfig.setUseActualColumnNames(useActualColumnNamesCheckbox.isSelected());
         generatorConfig.setEncoding(encodingChoice.getValue());
         return generatorConfig;

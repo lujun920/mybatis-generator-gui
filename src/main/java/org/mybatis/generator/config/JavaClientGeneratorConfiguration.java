@@ -15,10 +15,10 @@
  */
 package org.mybatis.generator.config;
 
-import java.util.List;
-
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+
+import java.util.List;
 
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
@@ -38,6 +38,9 @@ public class JavaClientGeneratorConfiguration extends TypedPropertyHolder {
 
 
     private Boolean nonNeedMethod;
+
+
+    private Boolean needBatchSaveConf;
 
     /**
      *  
@@ -80,6 +83,24 @@ public class JavaClientGeneratorConfiguration extends TypedPropertyHolder {
      */
     public void setNonNeedMethod(final Boolean nonNeedMethod) {
         this.nonNeedMethod = nonNeedMethod;
+    }
+
+    /**
+     * Getter method for property <tt>needBatchSaveConf</tt>.
+     *
+     * @return property value of needBatchSaveConf
+     */
+    public Boolean getNeedBatchSaveConf() {
+        return needBatchSaveConf;
+    }
+
+    /**
+     * Setter method for property <tt>needBatchSaveConf</tt>.
+     *
+     * @param needBatchSaveConf value to be assigned to property needBatchSaveConf
+     */
+    public void setNeedBatchSaveConf(final Boolean needBatchSaveConf) {
+        this.needBatchSaveConf = needBatchSaveConf;
     }
 
     public String getTargetProject() {

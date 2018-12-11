@@ -23,21 +23,20 @@ import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
-import org.mybatis.generator.config.GeneratedKey;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- * 
- * @author Jeff Butler
- * 
+ * TODO
+ * @author ${baizhang}
+ * @date 2018/12/11 3:59 PM
+ * @version v1.0
  */
-public class InsertElementGenerator extends AbstractXmlElementGenerator {
+public class BatchSaveElementGenerator extends AbstractXmlElementGenerator {
 
     private boolean isSimple;
 
-    public InsertElementGenerator(boolean isSimple) {
+    public BatchSaveElementGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
     }
@@ -48,7 +47,8 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
 
         //answer.addAttribute(new Attribute(
         //        "id", introspectedTable.getInsertStatementId())); //$NON-NLS-1$
-        answer.addAttribute(new Attribute("id", "saveRecord"));
+        answer.addAttribute(new Attribute("id", "saveBatchRecord"));
+
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
             parameterType = new FullyQualifiedJavaType(
@@ -58,30 +58,17 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
                     .calculateAllFieldsClass();
         }
 
-        answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
-                parameterType.getFullyQualifiedName()));
-
+        answer.addAttribute(new Attribute("parameterType", "java.util.List"));
         context.getCommentGenerator().addComment(answer);
 
-        GeneratedKey gk = introspectedTable.getGeneratedKey();
-        if (gk != null) {
-            IntrospectedColumn introspectedColumn = introspectedTable
-                    .getColumn(gk.getColumn());
-            // if the column is null, then it's a configuration error. The
-            // warning has already been reported
-            if (introspectedColumn != null) {
-                if (gk.isJdbcStandard()) {
-                    answer.addAttribute(new Attribute(
-                            "useGeneratedKeys", "true")); //$NON-NLS-1$ //$NON-NLS-2$
-                    answer.addAttribute(new Attribute(
-                            "keyProperty", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
-                    answer.addAttribute(new Attribute(
-                            "keyColumn", introspectedColumn.getActualColumnName())); //$NON-NLS-1$
-                } else {
-                    answer.addElement(getSelectKey(introspectedColumn, gk));
-                }
-            }
-        }
+        // <foreach collection="list" item="item" index="index" separator=",">
+        XmlElement foreachElement = new XmlElement("foreach");
+        foreachElement.addAttribute(new Attribute("collection", "list"));
+        foreachElement.addAttribute(new Attribute("item", "item"));
+        foreachElement.addAttribute(new Attribute("index", "index"));
+        foreachElement.addAttribute(new Attribute("separator", ","));
+
+
 
         StringBuilder insertClause = new StringBuilder();
         StringBuilder valuesClause = new StringBuilder();
@@ -91,7 +78,7 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
                 .getFullyQualifiedTableNameAtRuntime());
         insertClause.append(" ("); //$NON-NLS-1$
 
-        valuesClause.append("VALUES ("); //$NON-NLS-1$
+        valuesClause.append("("); //$NON-NLS-1$
 
         List<String> valuesClauses = new ArrayList<String>();
         List<IntrospectedColumn> columns = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
@@ -104,7 +91,7 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
 
             insertClause.append(MyBatis3FormattingUtilities
                     .getEscapedColumnName(introspectedColumn));
-            valuesClause.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn));
+            valuesClause.append(MyBatis3FormattingUtilities.getListParameterClause(introspectedColumn));
             if (i + 1 < columns.size()) {
                 insertClause.append(", "); //$NON-NLS-1$
                 valuesClause.append(", "); //$NON-NLS-1$
@@ -121,20 +108,26 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
             }
         }
 
-        insertClause.append(')');
+        insertClause.append(") VALUES ");
+
+
         answer.addElement(new TextElement(insertClause.toString()));
 
         valuesClause.append(')');
         valuesClauses.add(valuesClause.toString());
 
+//        for (String clause : valuesClauses) {
+//            answer.addElement(new TextElement(clause));
+//        }
         for (String clause : valuesClauses) {
-            answer.addElement(new TextElement(clause));
+            foreachElement.addElement(new TextElement(clause));
         }
 
+        answer.addElement(foreachElement);
         if (context.getPlugins().sqlMapInsertElementGenerated(answer,
                 introspectedTable)) {
             parentElement.addElement(new TextElement(""));
-            parentElement.addElement(new TextElement("<!-- ============ saveRecord 单条插入 ============ -->"));
+            parentElement.addElement(new TextElement("<!-- ============ saveBatchRecord 批量插入 ============ -->"));
             parentElement.addElement(answer);
         }
     }

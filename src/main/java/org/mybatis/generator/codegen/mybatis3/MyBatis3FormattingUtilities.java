@@ -46,6 +46,11 @@ public class MyBatis3FormattingUtilities {
         return getParameterClause(introspectedColumn, null);
     }
 
+
+    public static String getListParameterClause(
+            IntrospectedColumn introspectedColumn) {
+        return getListParameterClause(introspectedColumn, null);
+    }
     /**
      * Gets the parameter clause.
      *
@@ -73,6 +78,23 @@ public class MyBatis3FormattingUtilities {
         //    sb.append(introspectedColumn.getTypeHandler());
         //}
 
+        sb.append('}');
+
+        return sb.toString();
+    }
+
+    /**
+     * 批量保存前缀拼装，不考虑可变，写死
+     *
+     * @param introspectedColumn
+     * @param prefix
+     * @return
+     */
+    public static String getListParameterClause(IntrospectedColumn introspectedColumn, String prefix) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("#{item.");
+        sb.append(introspectedColumn.getJavaProperty(prefix));
         sb.append('}');
 
         return sb.toString();

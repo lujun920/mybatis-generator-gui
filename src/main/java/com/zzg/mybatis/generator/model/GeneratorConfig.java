@@ -50,6 +50,8 @@ public class GeneratorConfig {
 
 	private boolean useActualColumnNames;
 
+	private boolean needBatchSave;
+
 	private String generateKeys;
 
     private String encoding;
@@ -200,6 +202,24 @@ public class GeneratorConfig {
 	 */
 	public void setNonNeedInterfaceImplMethod(final boolean nonNeedInterfaceImplMethod) {
 		this.nonNeedInterfaceImplMethod = nonNeedInterfaceImplMethod;
+	}
+
+	/**
+	 * Getter method for property <tt>needBatchSave</tt>.
+	 *
+	 * @return property value of needBatchSave
+	 */
+	public boolean isNeedBatchSave() {
+		return needBatchSave;
+	}
+
+	/**
+	 * Setter method for property <tt>needBatchSave</tt>.
+	 *
+	 * @param needBatchSave value to be assigned to property needBatchSave
+	 */
+	public void setNeedBatchSave(final boolean needBatchSave) {
+		this.needBatchSave = needBatchSave;
 	}
 
 	public boolean isAnnotation() {

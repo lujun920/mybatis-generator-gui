@@ -206,12 +206,23 @@
                                            <CheckBox fx:id="needToStringHashcodeEquals" mnemonicParsing="false" selected="false" text="生成toString/hashCode/equals方法" />
                                        </children>
                                     </HBox>
+
+                                     <HBox spacing="18.0">
+                                         <children>
+                                             <CheckBox fx:id="needBatchSave"
+                                                       mnemonicParsing="false" selected="false"
+                                                       text="生成批量保存方法"/>
+                                         </children>
+                                     </HBox>
+
                                     <HBox spacing="18.0">
                                        <children>
                                           <CheckBox fx:id="annotationCheckBox" mnemonicParsing="false" selected="false" text="生成JPA注解" />
                                           <CheckBox fx:id="useActualColumnNamesCheckbox" mnemonicParsing="false" selected="false" text="使用实际的列名" />
                                        </children>
                                     </HBox>
+
+
                                  </children>
                                  <padding>
                                     <Insets left="5.0" />

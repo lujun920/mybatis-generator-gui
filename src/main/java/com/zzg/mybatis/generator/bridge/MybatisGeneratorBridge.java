@@ -1,10 +1,5 @@
 package com.zzg.mybatis.generator.bridge;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.zzg.mybatis.generator.model.DatabaseConfig;
 import com.zzg.mybatis.generator.model.DbType;
 import com.zzg.mybatis.generator.model.GeneratorConfig;
@@ -32,6 +27,11 @@ import org.mybatis.generator.config.TableConfiguration;
 import org.mybatis.generator.internal.DefaultShellCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The bridge between GUI and the mybatis generator. All the operation to  mybatis generator should proceed through this
@@ -128,6 +128,9 @@ public class MybatisGeneratorBridge {
 
         // 接口方法是否生成
         daoConfig.setNonNeedMethod(generatorConfig.isNonNeedInterfaceImplMethod());
+
+        // 批量保存
+        daoConfig.setNeedBatchSaveConf(generatorConfig.isNeedBatchSave());
 
         context.setId("myid");
         context.addTableConfiguration(tableConfig);

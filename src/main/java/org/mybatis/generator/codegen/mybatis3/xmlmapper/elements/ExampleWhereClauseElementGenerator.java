@@ -64,8 +64,12 @@ public class ExampleWhereClauseElementGenerator extends
         answer.addElement(whereElement);
         StringBuilder sb = new StringBuilder();
         int index= 0;
-        for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
-                .getNonPrimaryKeyColumns())) {
+        for (IntrospectedColumn introspectedColumn : ListUtilities
+                // 所有字段列
+                .removeGeneratedAlwaysColumns(introspectedTable.getAllColumns()
+                // 非主键列
+//                .getNonPrimaryKeyColumns()
+                )) {
             XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
             sb.setLength(0);
             sb.append(introspectedColumn.getJavaProperty());
