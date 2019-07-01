@@ -90,6 +90,7 @@ public class SelectByPrimaryKeyElementGenerator extends
         sb.append("FROM "); //$NON-NLS-1$
         sb.append(introspectedTable
                 .getAliasedFullyQualifiedTableNameAtRuntime());
+
         answer.addElement(new TextElement(sb.toString()));
 
         /**
@@ -97,6 +98,8 @@ public class SelectByPrimaryKeyElementGenerator extends
          */
         answer.addElement(getExampleIncludeElement());
 
+        answer.addElement(new TextElement("<!-- 不要删除、不要删除、不要删除 -->"));
+        answer.addElement(new TextElement(" LIMIT 2"));
 
         //boolean and = false;
         //for (IntrospectedColumn introspectedColumn : introspectedTable

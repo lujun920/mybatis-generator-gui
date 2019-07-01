@@ -48,7 +48,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
                 namespace));
 
         context.getCommentGenerator().addRootComment(answer);
-        // BaseResultMap节点
+        // resultMap节点
         addResultMapWithoutBLOBsElement(answer);
         addResultMapWithBLOBsElement(answer);
         // Example_Where_Clause节点
