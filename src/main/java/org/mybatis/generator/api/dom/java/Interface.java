@@ -153,9 +153,9 @@ public class Interface extends JavaElement implements CompilationUnit {
 
         addFormattedJavadoc(sb, indentLevel);
         addFormattedAnnotations(sb, indentLevel);
-        if(isDao()){
-            sb.append("@Mapper");
-        }
+//        if(isDao()){
+//            sb.append("@Mapper");
+//        }
         if(isService()){
             sb.append("@Service");
         }

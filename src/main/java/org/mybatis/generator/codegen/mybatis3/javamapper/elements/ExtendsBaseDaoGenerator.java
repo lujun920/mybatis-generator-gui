@@ -15,12 +15,12 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 
@@ -46,7 +46,8 @@ public class ExtendsBaseDaoGenerator extends
 
         interfaze.addSuperInterface(new FullyQualifiedJavaType("BaseDAO<" + returnType.getShortName() + ">"));
         // 添加@Mapper包导入
-        importedTypes.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
+        // 使用mofa3不需要
+//        importedTypes.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
         // model 导入包
         importedTypes.add(type);
 
