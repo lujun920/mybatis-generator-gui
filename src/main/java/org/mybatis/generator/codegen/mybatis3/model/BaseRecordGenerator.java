@@ -15,9 +15,6 @@
  */
 package org.mybatis.generator.codegen.mybatis3.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
@@ -32,6 +29,9 @@ import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.RootClassInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansField;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
@@ -118,9 +118,11 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
 
             // 继承于BaseModel，不需要生成公共字段
             if (context.getJavaClientGeneratorConfiguration().getNonNeedMethod()) {
-                if(StringUtils.equals(field.getName(), "deleted")||
-                    StringUtils.equals(field.getName(), "createTime")||
-                    StringUtils.equals(field.getName(), "updateTime")){
+                if(StringUtils.equals(field.getName(), "deleted")
+                        || StringUtils.equals(field.getName(), "createTime")
+                        || StringUtils.equals(field.getName(), "updateTime")
+                        || StringUtils.equals(field.getName(), "gmtCreate")
+                        || StringUtils.equals(field.getName(), "gmtUpdate")){
                     continue;
                 }
             }
