@@ -15,15 +15,16 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements.service;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 
@@ -41,6 +42,7 @@ public class UpdateRecordServiceImplMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         FullyQualifiedJavaType parameterType;
+        FullyQualifiedJavaType dao = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlMapNamespace());
 
         if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
             parameterType = new FullyQualifiedJavaType(introspectedTable
@@ -60,7 +62,8 @@ public class UpdateRecordServiceImplMethodGenerator extends
         method.setName("updateRecord");
         method.addParameter(new Parameter(parameterType, "model"));
         method.addBodyLine("model.setUpdateTime(new DateBuild().toDate());");
-        method.addBodyLine("return dao.updateRecord(model);");
+        method.addBodyLine("model.setGmtUpdate(DateUtil.timeStampMilli());");
+        method.addBodyLine("return "+ JavaBeansUtil.getValidPropertyName(dao.getShortName())+".updateRecord(model);");
 
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);

@@ -15,12 +15,12 @@
  */
 package org.mybatis.generator.api.dom.java;
 
+import org.mybatis.generator.api.dom.OutputUtilities;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
-
-import org.mybatis.generator.api.dom.OutputUtilities;
 
 /**
  * The Class Method.
@@ -177,11 +177,11 @@ public class Method extends JavaElement {
             if (isFinal()) {
                 sb.append("final "); //$NON-NLS-1$
             }
-            
+
             if (isSynchronized()) {
                 sb.append("synchronized "); //$NON-NLS-1$
             }
-            
+
             if (isNative()) {
                 sb.append("native "); //$NON-NLS-1$
             } else if (bodyLines.size() == 0) {

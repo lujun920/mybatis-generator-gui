@@ -17,6 +17,7 @@ package org.mybatis.generator.codegen.mybatis3.javamapper.elements.service;
 
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
+import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
 
@@ -41,7 +42,13 @@ public class ExtendsBaseServiceImplGenerator extends
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                 introspectedTable.getBaseRecordType());
-        Method method = new Method("");
+        FullyQualifiedJavaType dao= new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlMapNamespace());
+        // 导入包
+        importedTypes.add(dao);
+        Method method = new Method(interfaze.getType().getShortName());
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setConstructor(true);
+        method.addBodyLine("");
 
         FullyQualifiedJavaType returnType = introspectedTable.getRules().calculateAllFieldsClass();
 
@@ -50,10 +57,11 @@ public class ExtendsBaseServiceImplGenerator extends
         //interfaze.add
         // 添加@Service包导入
         importedTypes.add(new FullyQualifiedJavaType("org.springframework.stereotype.Service"));
+        importedTypes.add(new FullyQualifiedJavaType("org.springframework.beans.factory.ObjectProvider"));
         // model 导入包
         importedTypes.add(type);
 
-        addMapperAnnotations(interfaze, method);
+//        addMapperAnnotations(interfaze, method);
 
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);
@@ -61,7 +69,7 @@ public class ExtendsBaseServiceImplGenerator extends
         if (context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(
                 method, interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);
-            //interfaze.addMethod(method);
+//            interfaze.addMethod(method);
         }
     }
 

@@ -4,18 +4,13 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
+import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
+import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
@@ -28,6 +23,14 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.Select
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.service.UpdateRecordServiceImplMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
@@ -56,6 +59,7 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
         progressCallback.startTask(getString("Progress.17", //$NON-NLS-1$
                 introspectedTable.getFullyQualifiedTable().toString()));
         CommentGenerator commentGenerator = context.getCommentGenerator();
+        FullyQualifiedJavaType dao = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlMapNamespace());
 
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaServiceImplType());
         Interface interfaze = new Interface(type);
@@ -126,7 +130,9 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
             sb.append(" */");
             interfaze.addJavaDocLine(sb.toString());
 
-            interfaze.setAutowiredLines(Arrays.asList("private "+ type.getShortName()+"DAO dao;"));
+//            interfaze.setAutowiredLines(Arrays.asList("private "+ type.getShortName()+"DAO dao;"));
+
+
 
             addSelectByExampleServiceImplMethodGenerator(interfaze);
             addGetRecordServiceImplMethodGenerator(interfaze);
@@ -134,6 +140,37 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
             addRemoveRecordServiceImplMethodGenerator(interfaze);
             addUpdateRecordServiceImplMethodGenerator(interfaze);
         }
+
+
+
+        // 构造器注入
+        StringBuilder classInner0 = new StringBuilder();
+        classInner0.append("// 推荐使用构造器注入");
+        StringBuilder classInner1 = new StringBuilder();
+        classInner1.append("private final ").append(dao.getShortName()).append(" ")
+                .append(JavaBeansUtil.getValidPropertyName(dao.getShortName())).append(";");
+
+        StringBuilder classInner2 = new StringBuilder();
+        classInner2.append("public ").append(type.getShortName()).append("(")
+                .append("ObjectProvider<").append(dao.getShortName()).append("> ")
+                .append(JavaBeansUtil.getValidPropertyName(dao.getShortName())).append("Provider")
+                .append(") {").append("\n").append("        this.")
+                .append(JavaBeansUtil.getValidPropertyName(dao.getShortName()))
+                .append("= ").append(JavaBeansUtil.getValidPropertyName(dao.getShortName())).append("Provider")
+                .append(".getIfUnique();").append("\n").append("    }");
+        interfaze.setClassInnerLines(Arrays.asList(classInner0.toString(), classInner1.toString(), classInner2.toString()));
+
+        // 导入DAO包
+        interfaze.addImportedType(dao);
+        Field field = new Field();
+        field.setFinal(true);
+        field.setVisibility(JavaVisibility.PRIVATE);
+        field.setType(dao);
+        field.setName(JavaBeansUtil.getValidPropertyName(dao.getShortName()));
+        Method method = new Method(interfaze.getType().getShortName());
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setConstructor(true);
+        method.addBodyLine("");
 
 
 

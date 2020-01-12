@@ -15,15 +15,16 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements.service;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 
@@ -46,6 +47,7 @@ public class SaveRecordServiceImplMethodGenerator extends AbstractJavaMapperMeth
 
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setVisibility(JavaVisibility.PUBLIC);
+        FullyQualifiedJavaType dao = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlMapNamespace());
 
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
@@ -57,6 +59,7 @@ public class SaveRecordServiceImplMethodGenerator extends AbstractJavaMapperMeth
         }
         interfaze.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.lang.enums.LogicDeleteEnum"));
         interfaze.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.lang.util.DateBuild"));
+        interfaze.addImportedType(new FullyQualifiedJavaType("so.dian.mofa3.lang.util.DateUtil"));
         interfaze.addImportedType(new FullyQualifiedJavaType("java.util.Date"));
         method.addAnnotation("@Override");
         method.setName("saveRecord");
@@ -64,9 +67,12 @@ public class SaveRecordServiceImplMethodGenerator extends AbstractJavaMapperMeth
         method.addParameter(new Parameter(parameterType, "model"));
         method.addBodyLine("model.setDeleted(LogicDeleteEnum.FALSE.getDelete());");
         method.addBodyLine("Date date = new DateBuild().toDate();");
+        method.addBodyLine("long timeStampMilli = DateUtil.timeStampMilli();");
         method.addBodyLine("model.setCreateTime(date);");
         method.addBodyLine("model.setUpdateTime(date);");
-        method.addBodyLine("return dao.saveRecord(model);");
+        method.addBodyLine("model.setGmtCreate(timeStampMilli);");
+        method.addBodyLine("model.setGmtUpdate(timeStampMilli);");
+        method.addBodyLine("return "+ JavaBeansUtil.getValidPropertyName(dao.getShortName())+".saveRecord(model);");
 
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);

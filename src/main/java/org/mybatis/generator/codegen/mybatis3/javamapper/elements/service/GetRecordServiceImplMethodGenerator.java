@@ -15,15 +15,16 @@
  */
 package org.mybatis.generator.codegen.mybatis3.javamapper.elements.service;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 
@@ -45,6 +46,7 @@ public class GetRecordServiceImplMethodGenerator extends
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                 introspectedTable.getBaseRecordType());
+        FullyQualifiedJavaType dao = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlMapNamespace());
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
 
@@ -58,7 +60,7 @@ public class GetRecordServiceImplMethodGenerator extends
 
         method.addParameter(new Parameter(type, "model"));
         method.addBodyLine("model.setDeleted(LogicDeleteEnum.FALSE.getDelete());");
-        method.addBodyLine("return dao.getRecord(model);");
+        method.addBodyLine("return "+ JavaBeansUtil.getValidPropertyName(dao.getShortName())+".getRecord(model);");
         addMapperAnnotations(interfaze, method);
 
         context.getCommentGenerator().addGeneralMethodComment(method,

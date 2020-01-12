@@ -69,19 +69,6 @@ public class JavaServiceGenerator extends AbstractJavaClientGenerator {
                 + " */");
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //StringBuilder sb = new StringBuilder();
-        //sb.append("/**\n");
-        //sb.append(" * 继承于BaseService，默认有五个方法实现\n");
-        //sb.append(" * listRecord、getRecord、saveRecord、removeRecord、updateRecord\n");
-        //sb.append(" * 该类默认接口方法可以删除\n");
-        //sb.append(" *\n");
-        //sb.append(" * @author MBG工具生成\n");
-        //sb.append(" * @version $Id: ").append(type.getShortName())
-        //        .append(".java, v 0.1 ")
-        //        .append(format.format(new Date()))
-        //        .append(" Exp $\n");
-        //sb.append(" */");
-        //interfaze.addJavaDocLine(sb.toString());
         commentGenerator.addJavaFileComment(interfaze);
 
         String rootInterface = introspectedTable

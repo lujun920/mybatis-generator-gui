@@ -59,6 +59,8 @@ public class Interface extends JavaElement implements CompilationUnit {
     private List<String> fileCommentLines;
     private List<String> autowiredLines;
 
+    private List<String> classInnerLines;
+
     /**
      * Instantiates a new interface.
      *
@@ -75,6 +77,7 @@ public class Interface extends JavaElement implements CompilationUnit {
         fileCommentLines = new ArrayList<String>();
         autowiredLines = new ArrayList<String>();
         staticImports = new TreeSet<String>();
+        classInnerLines= new ArrayList<>();
     }
 
     /**
@@ -239,6 +242,13 @@ public class Interface extends JavaElement implements CompilationUnit {
             sb.append("    ").append(line);
             newLine(sb);
         }
+        newLine(sb);
+        newLine(sb);
+        for (String line : classInnerLines) {
+            sb.append("    ").append(line);
+            newLine(sb);
+        }
+
         sb.append('}');
 
         return sb.toString();
@@ -329,6 +339,24 @@ public class Interface extends JavaElement implements CompilationUnit {
      */
     public void setAutowiredLines(final List<String> autowiredLines) {
         this.autowiredLines = autowiredLines;
+    }
+
+    /**
+     * Getter method for property <tt>classInnerLines</tt>.
+     *
+     * @return property value of classInnerLines
+     */
+    public List<String> getClassInnerLines() {
+        return classInnerLines;
+    }
+
+    /**
+     * Setter method for property <tt>classInnerLines</tt>.
+     *
+     * @param classInnerLines value to be assigned to property classInnerLines
+     */
+    public void setClassInnerLines(final List<String> classInnerLines) {
+        this.classInnerLines = classInnerLines;
     }
 
     /* (non-Javadoc)
