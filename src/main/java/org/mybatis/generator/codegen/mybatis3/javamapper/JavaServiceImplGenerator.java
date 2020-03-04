@@ -145,7 +145,9 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
 
         // 构造器注入
         StringBuilder classInner0 = new StringBuilder();
-        classInner0.append("// 推荐使用构造器注入");
+        classInner0.append("/**").append("\n");
+        classInner0.append("     * 推荐使用构造器注入").append("\n");
+        classInner0.append("     */");
         StringBuilder classInner1 = new StringBuilder();
         classInner1.append("private final ").append(dao.getShortName()).append(" ")
                 .append(JavaBeansUtil.getValidPropertyName(dao.getShortName())).append(";");
