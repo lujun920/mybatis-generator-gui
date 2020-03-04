@@ -155,10 +155,10 @@ public class JavaServiceImplGenerator extends AbstractJavaClientGenerator {
         StringBuilder classInner2 = new StringBuilder();
         classInner2.append("public ").append(type.getShortName()).append("(")
                 .append("ObjectProvider<").append(dao.getShortName()).append("> ")
-                .append(JavaBeansUtil.getValidPropertyName(dao.getShortName())).append("Provider")
+                .append(JavaBeansUtil.getValidPropertyName(dao.getShortName().replace("DAO",""))).append("Provider")
                 .append(") {").append("\n").append("        this.")
                 .append(JavaBeansUtil.getValidPropertyName(dao.getShortName()))
-                .append("= ").append(JavaBeansUtil.getValidPropertyName(dao.getShortName())).append("Provider")
+                .append("= ").append(JavaBeansUtil.getValidPropertyName(dao.getShortName().replace("DAO", ""))).append("Provider")
                 .append(".getIfUnique();").append("\n").append("    }");
         interfaze.setClassInnerLines(Arrays.asList(classInner0.toString(), classInner1.toString(), classInner2.toString()));
 
